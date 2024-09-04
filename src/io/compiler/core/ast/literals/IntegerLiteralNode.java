@@ -1,6 +1,8 @@
 package io.compiler.core.ast.literals;
 
 import io.compiler.core.ast.AstNode;
+import io.compiler.types.Type;
+import io.interpreter.Value;
 
 public class IntegerLiteralNode extends AstNode {
     private final int value;
@@ -17,5 +19,10 @@ public class IntegerLiteralNode extends AstNode {
     @Override
     public String generateJavaTarget() {
         return String.valueOf(value);
+    }
+
+    @Override
+    public Value interpret() {
+        return new Value(Type.Integer, value);
     }
 }

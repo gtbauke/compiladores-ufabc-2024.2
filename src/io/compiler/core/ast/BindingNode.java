@@ -1,6 +1,7 @@
 package io.compiler.core.ast;
 
 import io.compiler.types.Type;
+import io.interpreter.Value;
 
 public class BindingNode extends AstNode {
     private final String identifier;
@@ -51,5 +52,10 @@ public class BindingNode extends AstNode {
 
         builder.append(";\n");
         return builder.toString();
+    }
+
+    @Override
+    public Value interpret() throws Exception {
+        throw new Exception("Not implemented");
     }
 }

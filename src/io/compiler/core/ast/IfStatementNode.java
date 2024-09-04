@@ -1,5 +1,7 @@
 package io.compiler.core.ast;
 
+import io.interpreter.Value;
+
 import java.util.List;
 
 public class IfStatementNode extends AstNode {
@@ -77,5 +79,10 @@ public class IfStatementNode extends AstNode {
         }
 
         return builder.toString();
+    }
+
+    @Override
+    public Value interpret() throws Exception {
+        throw new Exception("Not implemented");
     }
 }

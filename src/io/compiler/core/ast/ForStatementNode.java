@@ -1,5 +1,7 @@
 package io.compiler.core.ast;
 
+import io.interpreter.Value;
+
 import java.util.List;
 
 public class ForStatementNode extends AstNode {
@@ -65,5 +67,10 @@ public class ForStatementNode extends AstNode {
 
         forStatement.append("}\n");
         return forStatement.toString();
+    }
+
+    @Override
+    public Value interpret() throws Exception {
+        throw new Exception("Not implemented");
     }
 }

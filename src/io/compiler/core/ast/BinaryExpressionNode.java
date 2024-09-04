@@ -1,6 +1,7 @@
 package io.compiler.core.ast;
 
 import io.compiler.core.operators.BinaryOperator;
+import io.interpreter.Value;
 
 public class BinaryExpressionNode extends AstNode {
     private final AstNode left;
@@ -61,5 +62,10 @@ public class BinaryExpressionNode extends AstNode {
             case And -> left.generateJavaTarget() + " && " + right.generateJavaTarget();
             case Or -> left.generateJavaTarget() + " || " + right.generateJavaTarget();
         };
+    }
+
+    @Override
+    public Value interpret() throws Exception {
+        throw new Exception("Not implemented");
     }
 }
