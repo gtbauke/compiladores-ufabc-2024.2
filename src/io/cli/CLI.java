@@ -40,13 +40,25 @@ public class CLI {
             switch (target) {
                 case Java: {
                     var javaGenerator = new JavaGenerator();
-                    javaGenerator.writeToFile(program, output);
+
+                    if (output == null) {
+                        var code = javaGenerator.generate(program);
+                        System.out.println(code);
+                    } else {
+                        javaGenerator.writeToFile(program, output);
+                    }
 
                     break;
                 }
                 case C: {
                     var cGenerator = new CGenerator();
-                    cGenerator.writeToFile(program, output);
+
+                    if (output == null) {
+                        var code = cGenerator.generate(program);
+                        System.out.println(code);
+                    } else {
+                        cGenerator.writeToFile(program, output);
+                    }
 
                     break;
                 }

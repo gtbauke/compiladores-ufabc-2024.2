@@ -1,4 +1,8 @@
 programa
+    int i = 0;
 inicio
-    escreva(10 * (5 + 3));
+    faca {
+        i = i + 1;
+        escreva(i);
+    } enquanto (i < 10);
 fimprog.
