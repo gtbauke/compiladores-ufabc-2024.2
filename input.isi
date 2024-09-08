@@ -1,9 +1,4 @@
 programa
-    string nome = "";
 inicio
-    escreva(nome);
-    escreva("Digite seu nome: ");
-    leia(nome);
-
-    escreva(nome);
+    escreva(10 * (5 + 3));
 fimprog.
