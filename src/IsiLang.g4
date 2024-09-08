@@ -74,7 +74,21 @@ program : 'programa' declaration 'inicio' block 'fimprog' DOT {
 declaration : assignment*;
 block : statement+;
 
-statement : print | read | if | attribution | for | while;
+statement : print | read | if | attribution | for | while | do_while;
+
+do_while : 'faca' {
+    var body = new ArrayList<StatementNode>();
+} OPEN_CURLY (statement {
+    var lastStatement = statements.get(statements.size() - 1);
+    statements.remove(statements.size() - 1);
+
+    body.add(lastStatement);
+})* CLOSE_CURLY 'enquanto' OPEN_PAREN expression {
+    var condition = stack.pop();
+} CLOSE_PAREN END_OF_LINE {
+    var doWhileStatement = new DoWhileStatementNode(body, condition);
+    addStatement(doWhileStatement);
+};
 
 while : 'enquanto' OPEN_PAREN expression {
     var condition = stack.pop();
