@@ -2,6 +2,7 @@ package io.compiler.core.ast.statements;
 
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
+import io.compiler.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
@@ -9,9 +10,9 @@ import java.util.List;
 
 public class WhileStatementNode extends StatementNode {
     private final AstNode condition;
-    private final List<AstNode> body;
+    private final List<StatementNode> body;
 
-    public WhileStatementNode(AstNode condition, List<AstNode> body) {
+    public WhileStatementNode(AstNode condition, List<StatementNode> body) {
         this.condition = condition;
         this.body = body;
     }
@@ -20,7 +21,7 @@ public class WhileStatementNode extends StatementNode {
         return condition;
     }
 
-    public List<AstNode> getBody() {
+    public List<StatementNode> getBody() {
         return body;
     }
 
@@ -60,6 +61,12 @@ public class WhileStatementNode extends StatementNode {
 
     @Override
     public Value interpret(Interpreter interpreter) throws Exception {
-        throw new Exception("Not implemented");
+        while (condition.interpret(interpreter).asBoolean()) {
+            for (StatementNode node : body) {
+                node.interpret(interpreter);
+            }
+        }
+
+        return new Value(Type.Void, null);
     }
 }
