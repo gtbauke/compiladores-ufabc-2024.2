@@ -7,6 +7,7 @@ package io.compiler.core.generated;
     import io.compiler.core.operators.*;
     import io.compiler.core.exceptions.*;
     import io.compiler.core.warnings.*;
+    import io.compiler.core.program.*;
     import io.compiler.types.*;
     import java.util.Stack;
     import java.util.ArrayList;
@@ -105,6 +106,7 @@ public class IsiLangLexer extends Lexer {
 	}
 
 
+	    private Program program;
 	    private HashMap<String, Binding> symbols = new HashMap<String, Binding>();
 
 	    private Stack<AstNode> stack = new Stack<AstNode>();
@@ -139,6 +141,10 @@ public class IsiLangLexer extends Lexer {
 
 	    private boolean isInitializingVariable = false;
 	    private boolean hasElseBranch = false;
+
+	    public Program getProgram() {
+	        return program;
+	    }
 
 
 	public IsiLangLexer(CharStream input) {

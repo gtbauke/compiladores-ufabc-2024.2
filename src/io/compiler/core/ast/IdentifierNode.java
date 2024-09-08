@@ -1,6 +1,7 @@
 package io.compiler.core.ast;
 
 import io.compiler.types.Type;
+import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 public class IdentifierNode extends AstNode {
@@ -26,9 +27,8 @@ public class IdentifierNode extends AstNode {
         return name;
     }
 
-    // TODO: interpret method should receive a context
     @Override
-    public Value interpret() throws Exception {
-        throw new Exception("Cannot interpret an identifier node (we need the interpretation context!)");
+    public Value interpret(Interpreter interpreter) throws Exception {
+        return interpreter.getValue(name);
     }
 }

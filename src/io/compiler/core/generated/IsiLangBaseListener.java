@@ -7,6 +7,7 @@ package io.compiler.core.generated;
     import io.compiler.core.operators.*;
     import io.compiler.core.exceptions.*;
     import io.compiler.core.warnings.*;
+    import io.compiler.core.program.*;
     import io.compiler.types.*;
     import java.util.Stack;
     import java.util.ArrayList;

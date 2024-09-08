@@ -2,6 +2,8 @@ package io.compiler.core.ast.statements;
 
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
+import io.compiler.types.Type;
+import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 import java.util.List;
@@ -84,7 +86,19 @@ public class IfStatementNode extends StatementNode {
     }
 
     @Override
-    public Value interpret() throws Exception {
-        throw new Exception("Not implemented");
+    public Value interpret(Interpreter interpreter) throws Exception {
+        var condition = this.condition.interpret(interpreter);
+
+        if (condition.is(Type.Boolean) && (boolean)condition.getValue()) {
+            for (var node : thenBranch) {
+                node.interpret(interpreter);
+            }
+        } else {
+            for (var node : elseBranch) {
+                node.interpret(interpreter);
+            }
+        }
+
+        return new Value(Type.Void, null);
     }
 }

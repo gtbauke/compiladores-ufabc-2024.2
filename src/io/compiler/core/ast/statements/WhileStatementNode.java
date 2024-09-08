@@ -2,6 +2,7 @@ package io.compiler.core.ast.statements;
 
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
+import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class WhileStatementNode extends StatementNode {
     }
 
     @Override
-    public Value interpret() throws Exception {
+    public Value interpret(Interpreter interpreter) throws Exception {
         throw new Exception("Not implemented");
     }
 }

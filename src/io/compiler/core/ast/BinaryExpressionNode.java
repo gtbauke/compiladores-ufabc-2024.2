@@ -2,6 +2,7 @@ package io.compiler.core.ast;
 
 import io.compiler.core.operators.BinaryOperator;
 import io.compiler.types.Type;
+import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 public class BinaryExpressionNode extends AstNode {
@@ -86,9 +87,9 @@ public class BinaryExpressionNode extends AstNode {
     }
 
     @Override
-    public Value interpret() throws Exception {
-        var leftValue = left.interpret();
-        var rightValue = right.interpret();
+    public Value interpret(Interpreter interpreter) throws Exception {
+        var leftValue = left.interpret(interpreter);
+        var rightValue = right.interpret(interpreter);
 
         switch (operator) {
             case Addition: {

@@ -2,6 +2,7 @@ package io.compiler.core.ast;
 
 import io.compiler.types.Binding;
 import io.compiler.types.Type;
+import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 public class BindingNode extends AstNode {
@@ -55,7 +56,10 @@ public class BindingNode extends AstNode {
     }
 
     @Override
-    public Value interpret() throws Exception {
-        throw new Exception("Not implemented");
+    public Value interpret(Interpreter interpreter) throws Exception {
+        var value = initializer.interpret(interpreter);
+        interpreter.addValue(identifier, value);
+
+        return new Value(Type.Void, null);
     }
 }

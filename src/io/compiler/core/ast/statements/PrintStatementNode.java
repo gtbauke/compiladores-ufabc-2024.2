@@ -3,6 +3,8 @@ package io.compiler.core.ast.statements;
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
 import io.compiler.targets.c.FormatSpecifier;
+import io.compiler.types.Type;
+import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 public class PrintStatementNode extends StatementNode {
@@ -33,7 +35,10 @@ public class PrintStatementNode extends StatementNode {
     }
 
     @Override
-    public Value interpret() throws Exception {
-        return null;
+    public Value interpret(Interpreter interpreter) throws Exception {
+        var value = this.value.interpret(interpreter);
+        System.out.println(value);
+
+        return new Value(Type.Void, null);
     }
 }

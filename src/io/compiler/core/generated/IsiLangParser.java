@@ -7,6 +7,7 @@ package io.compiler.core.generated;
     import io.compiler.core.operators.*;
     import io.compiler.core.exceptions.*;
     import io.compiler.core.warnings.*;
+    import io.compiler.core.program.*;
     import io.compiler.types.*;
     import java.util.Stack;
     import java.util.ArrayList;
@@ -117,6 +118,7 @@ public class IsiLangParser extends Parser {
 	public ATN getATN() { return _ATN; }
 
 
+	    private Program program;
 	    private HashMap<String, Binding> symbols = new HashMap<String, Binding>();
 
 	    private Stack<AstNode> stack = new Stack<AstNode>();
@@ -151,6 +153,10 @@ public class IsiLangParser extends Parser {
 
 	    private boolean isInitializingVariable = false;
 	    private boolean hasElseBranch = false;
+
+	    public Program getProgram() {
+	        return program;
+	    }
 
 	public IsiLangParser(TokenStream input) {
 		super(input);
@@ -213,6 +219,9 @@ public class IsiLangParser extends Parser {
 			            System.out.println("WARNING: " + warning.getMessage());
 			        }
 			    }
+
+			    var program_ = new Program(declarations, statements, symbols);
+			    this.program = program_;
 
 			}
 		}
