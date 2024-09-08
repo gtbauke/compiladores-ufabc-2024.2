@@ -754,6 +754,10 @@ public class IsiLangParser extends Parser {
 			    var identifierString = _input.LT(-1).getText();
 			    var identifier = new IdentifierNode(identifierString);
 
+			    if (symbols.containsKey(identifier.getName())) {
+			        throw new AlreadyDeclaredVariableException(identifier.getName());
+			    }
+
 			setState(120);
 			_errHandler.sync(this);
 			_la = _input.LA(1);

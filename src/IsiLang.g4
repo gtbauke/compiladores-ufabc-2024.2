@@ -129,6 +129,10 @@ assignment : ('int' | 'float' | 'string' | 'boolean') {
 } IDENTIFIER {
     var identifierString = _input.LT(-1).getText();
     var identifier = new IdentifierNode(identifierString);
+
+    if (symbols.containsKey(identifier.getName())) {
+        throw new AlreadyDeclaredVariableException(identifier.getName());
+    }
 } ('=' {
     isInitializingVariable = true;
 } expression)? {
