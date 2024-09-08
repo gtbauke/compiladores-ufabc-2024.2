@@ -1,21 +1,7 @@
 programa
-    int age = 21;
+    int i;
 inicio
-    escreva(age);
-
-    se (age > 30) {
-        escreva("You are old");
-    } senao {
-        escreva("You are young");
+    para (i = 0; i < 10; i = i + 1) {
+        escreva(i);
     }
-
-    age = 45;
-
-    se (age > 30) {
-            escreva("You are old");
-        } senao {
-            escreva("You are young");
-        }
-
-    escreva(age);
 fimprog.

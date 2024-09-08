@@ -57,9 +57,11 @@ public class BindingNode extends AstNode {
 
     @Override
     public Value interpret(Interpreter interpreter) throws Exception {
-        var value = initializer.interpret(interpreter);
-        interpreter.addValue(identifier, value);
+        var value = initializer == null
+            ? new Value(type, null)
+            : initializer.interpret(interpreter);
 
+        interpreter.addValue(identifier, value);
         return new Value(Type.Void, null);
     }
 }
