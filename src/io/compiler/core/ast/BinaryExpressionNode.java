@@ -242,6 +242,26 @@ public class BinaryExpressionNode extends AstNode {
 
                 throw new Exception("Invalid operation: LessThanOrEqual between " + leftValue.getType() + " and " + rightValue.getType());
             }
+            case And: {
+                if (leftValue.is(Type.Boolean) && rightValue.is(Type.Boolean)) {
+                    var leftBool = (boolean) leftValue.getValue();
+                    var rightBool = (boolean) rightValue.getValue();
+
+                    return new Value(Type.Boolean, leftBool && rightBool);
+                }
+
+                throw new Exception("Invalid operation: And between " + leftValue.getType() + " and " + rightValue.getType());
+            }
+            case Or: {
+                if (leftValue.is(Type.Boolean) && rightValue.is(Type.Boolean)) {
+                    var leftBool = (boolean) leftValue.getValue();
+                    var rightBool = (boolean) rightValue.getValue();
+
+                    return new Value(Type.Boolean, leftBool || rightBool);
+                }
+
+                throw new Exception("Invalid operation: Or between " + leftValue.getType() + " and " + rightValue.getType());
+            }
             default: throw new Exception("Not implemented yet");
         }
     }
