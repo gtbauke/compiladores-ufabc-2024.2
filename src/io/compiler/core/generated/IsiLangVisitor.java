@@ -78,6 +78,12 @@ public interface IsiLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrint(IsiLangParser.PrintContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#read}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRead(IsiLangParser.ReadContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link IsiLangParser#if}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

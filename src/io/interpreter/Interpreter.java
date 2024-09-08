@@ -3,16 +3,21 @@ package io.interpreter;
 import io.compiler.core.exceptions.AlreadyDeclaredVariableException;
 import io.compiler.core.exceptions.UndeclaredVariableException;
 import io.compiler.core.program.Program;
+import io.compiler.types.Type;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Interpreter {
     private final Program program;
     private final HashMap<String, Value> values;
 
+    private final Scanner scanner;
+
     public Interpreter(Program program) {
         this.program = program;
         this.values = new HashMap<>();
+        this.scanner = new Scanner(System.in);
     }
 
     public void addValue(String name, Value value) throws AlreadyDeclaredVariableException {
@@ -39,6 +44,28 @@ public class Interpreter {
         return values.get(name);
     }
 
+    public Value read(Type target) {
+        switch (target) {
+            case Integer -> {
+                var value = scanner.nextInt();
+                return new Value(Type.Integer, value);
+            }
+            case Float -> {
+                var value = scanner.nextFloat();
+                return new Value(Type.Float, value);
+            }
+            case String -> {
+                var value = scanner.nextLine();
+                return new Value(Type.String, value);
+            }
+            case Boolean -> {
+                var value = scanner.nextBoolean();
+                return new Value(Type.Boolean, value);
+            }
+            default -> throw new IllegalArgumentException("Invalid type: " + target);
+        }
+    }
+
     public void run() {
         try {
             for (var declaration : program.getDeclarations()) {
@@ -48,6 +75,8 @@ public class Interpreter {
             for (var statement : program.getStatements()) {
                 statement.interpret(this);
             }
+
+            scanner.close();
         } catch (Exception exception) {
             System.err.println("Error: " + exception.getMessage());
             System.out.println("Stack trace:");

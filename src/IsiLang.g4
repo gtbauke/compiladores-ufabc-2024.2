@@ -74,7 +74,7 @@ program : 'programa' declaration 'inicio' block 'fimprog' DOT {
 declaration : assignment*;
 block : statement+;
 
-statement : print | if | attribution | for | while;
+statement : print | read | if | attribution | for | while;
 
 while : 'enquanto' OPEN_PAREN expression {
     var condition = stack.pop();
@@ -137,6 +137,15 @@ attributionl : IDENTIFIER {
 print : 'escreva' OPEN_PAREN expression CLOSE_PAREN END_OF_LINE {
     var printStatement = new PrintStatementNode(stack.pop());
     addStatement(printStatement);
+};
+
+read : 'leia' OPEN_PAREN identifier {
+    var identifier = (IdentifierNode)stack.pop();
+    var symbol = symbols.get(identifier.getName());
+    var symbolType = symbol.getType();
+} CLOSE_PAREN END_OF_LINE {
+    var readStatement = new ReadStatementNode(identifier.getName(), symbolType);
+    addStatement(readStatement);
 };
 
 if : 'se' OPEN_PAREN expression {

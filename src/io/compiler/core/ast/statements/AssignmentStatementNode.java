@@ -17,7 +17,11 @@ public class AssignmentStatementNode extends StatementNode {
 
     @Override
     public String generateCTarget() {
-        return identifier + " = " + expression.generateCTarget() + ";\n";
+        if (expression.getType() == Type.String) {
+            return "strcpy(" + identifier + ", " + expression.generateCTarget() + ");\n";
+        } else {
+            return identifier + " = " + expression.generateCTarget() + ";\n";
+        }
     }
 
     @Override

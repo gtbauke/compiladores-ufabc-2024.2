@@ -42,7 +42,6 @@ public enum Type implements IJavaTarget, ICTarget {
         };
     }
 
-    // TODO: how to handle pointers? We need to alloc the memory for the string and have a way of freeing it later
     @Override
     public java.lang.String generateCTarget() {
         return switch (this) {
