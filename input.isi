@@ -1,1 +1,10 @@
-100 + 20 * 3 == 160;
+program MyProgram
+declares
+    string name = "Gustavo Bauke";
+    int age;
+begin
+    age = 21;
+
+    print(name);
+    print(age);
+end;

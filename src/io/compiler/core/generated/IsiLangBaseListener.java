@@ -3,9 +3,13 @@ package io.compiler.core.generated;
 
     import io.compiler.core.ast.*;
     import io.compiler.core.ast.literals.*;
+    import io.compiler.core.ast.statements.*;
+    import io.compiler.core.operators.*;
+    import io.compiler.core.exceptions.*;
     import io.compiler.types.*;
     import java.util.Stack;
-    import io.compiler.core.operators.*;
+    import java.util.ArrayList;
+    import java.util.HashMap;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -24,13 +28,61 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression(IsiLangParser.ExpressionContext ctx) { }
+	@Override public void enterProgram(IsiLangParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression(IsiLangParser.ExpressionContext ctx) { }
+	@Override public void exitProgram(IsiLangParser.ProgramContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDeclaration(IsiLangParser.DeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDeclaration(IsiLangParser.DeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatement(IsiLangParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatement(IsiLangParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAttribution(IsiLangParser.AttributionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAttribution(IsiLangParser.AttributionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrint(IsiLangParser.PrintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrint(IsiLangParser.PrintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -43,6 +95,18 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssignment(IsiLangParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpression(IsiLangParser.ExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpression(IsiLangParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

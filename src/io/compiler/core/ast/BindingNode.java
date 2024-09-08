@@ -1,16 +1,16 @@
 package io.compiler.core.ast;
 
+import io.compiler.types.Binding;
 import io.compiler.types.Type;
 import io.interpreter.Value;
 
 public class BindingNode extends AstNode {
     private final String identifier;
-    private final Type type;
     private final AstNode initializer;
 
     public BindingNode(String identifier, Type type, AstNode initializer) {
+        super(type);
         this.identifier = identifier;
-        this.type = type;
         this.initializer = initializer;
     }
 
@@ -18,12 +18,12 @@ public class BindingNode extends AstNode {
         return identifier;
     }
 
-    public Type getType() {
-        return type;
-    }
-
     public AstNode getInitializer() {
         return initializer;
+    }
+
+    public Binding asBinding() {
+        return new Binding(identifier, type, initializer != null);
     }
 
     @Override

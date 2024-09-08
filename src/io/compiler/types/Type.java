@@ -7,7 +7,8 @@ public enum Type implements IJavaTarget, ICTarget {
     Integer(1),
     Float(2),
     String(3),
-    Boolean(4);
+    Boolean(4),
+    Void(5);
 
     private final int value;
 
@@ -25,6 +26,18 @@ public enum Type implements IJavaTarget, ICTarget {
             case 2 -> Float;
             case 3 -> String;
             case 4 -> Boolean;
+            case 5 -> Void;
+            default -> throw new IllegalArgumentException("Invalid value: " + value);
+        };
+    }
+
+    public static Type fromString(String value) {
+        return switch (value) {
+            case "int" -> Integer;
+            case "float" -> Float;
+            case "string" -> String;
+            case "bool" -> Boolean;
+            case "void" -> Void;
             default -> throw new IllegalArgumentException("Invalid value: " + value);
         };
     }
@@ -37,6 +50,7 @@ public enum Type implements IJavaTarget, ICTarget {
             case Float -> "float";
             case String -> "char*";
             case Boolean -> "bool";
+            case Void -> "void";
         };
     }
 
@@ -46,6 +60,7 @@ public enum Type implements IJavaTarget, ICTarget {
             case Integer, Boolean -> "int";
             case Float -> "float";
             case String -> "String";
+            case Void -> "void";
         };
     }
 }

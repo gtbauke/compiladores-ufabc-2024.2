@@ -13,18 +13,13 @@ public class Main {
             CommonTokenStream tokenStream = new CommonTokenStream(lexer);
             parser = new IsiLangParser(tokenStream);
 
-            parser.expression();
+            parser.program();
 
-            var root = parser.getRoot();
-            var javaCode = root.generateJavaTarget();
-            var cCode = root.generateCTarget();
+            var statements = parser.getStatements();
 
-            System.out.println(javaCode);
-            System.out.println("\n\n\n");
-            System.out.println(cCode);
-
-            var value = root.interpret();
-            System.out.println("Interpretation result: " + value);
+            for (var statement : statements) {
+                System.out.println(statement.generateCTarget());
+            }
         } catch (Exception ex) {
             System.err.println("Error: " + ex.getMessage());
             System.out.println("Stack trace:");

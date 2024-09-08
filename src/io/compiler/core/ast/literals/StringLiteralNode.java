@@ -8,6 +8,7 @@ public class StringLiteralNode extends LiteralAstNode {
     private final String value;
 
     public StringLiteralNode(String value) {
+        super(Type.String);
         this.value = value;
     }
 

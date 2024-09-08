@@ -8,6 +8,7 @@ public class FloatLiteralNode extends LiteralAstNode {
     private final float value;
 
     public FloatLiteralNode(float value) {
+        super(Type.Float);
         this.value = value;
     }
 
