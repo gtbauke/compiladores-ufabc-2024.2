@@ -15,6 +15,10 @@ public class Value {
         return type;
     }
 
+    public boolean is(Type type) {
+        return this.type.equals(type);
+    }
+
     public Object getValue() {
         return value;
     }

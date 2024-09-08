@@ -6,7 +6,8 @@ import io.compiler.core.targets.IJavaTarget;
 public enum Type implements IJavaTarget, ICTarget {
     Integer(1),
     Float(2),
-    String(3);
+    String(3),
+    Boolean(4);
 
     private final int value;
 
@@ -23,6 +24,7 @@ public enum Type implements IJavaTarget, ICTarget {
             case 1 -> Integer;
             case 2 -> Float;
             case 3 -> String;
+            case 4 -> Boolean;
             default -> throw new IllegalArgumentException("Invalid value: " + value);
         };
     }
@@ -34,13 +36,14 @@ public enum Type implements IJavaTarget, ICTarget {
             case Integer -> "int";
             case Float -> "float";
             case String -> "char*";
+            case Boolean -> "bool";
         };
     }
 
     @Override
     public java.lang.String generateJavaTarget() {
         return switch (this) {
-            case Integer -> "int";
+            case Integer, Boolean -> "int";
             case Float -> "float";
             case String -> "String";
         };

@@ -22,6 +22,9 @@ public class Main {
             System.out.println(javaCode);
             System.out.println("\n\n\n");
             System.out.println(cCode);
+
+            var value = root.interpret();
+            System.out.println("Interpretation result: " + value);
         } catch (Exception ex) {
             System.err.println("Error: " + ex.getMessage());
             System.out.println("Stack trace:");

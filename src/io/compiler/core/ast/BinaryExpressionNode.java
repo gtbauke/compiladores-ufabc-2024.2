@@ -1,6 +1,7 @@
 package io.compiler.core.ast;
 
 import io.compiler.core.operators.BinaryOperator;
+import io.compiler.types.Type;
 import io.interpreter.Value;
 
 public class BinaryExpressionNode extends AstNode {
@@ -82,6 +83,162 @@ public class BinaryExpressionNode extends AstNode {
 
     @Override
     public Value interpret() throws Exception {
-        throw new Exception("Not implemented");
+        var leftValue = left.interpret();
+        var rightValue = right.interpret();
+
+        switch (operator) {
+            case Addition: {
+                if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
+                    var leftInt = (int) leftValue.getValue();
+                    var rightInt = (int) rightValue.getValue();
+
+                    return new Value(Type.Integer, leftInt + rightInt);
+                }
+
+                if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
+                    var leftFloat = (float) leftValue.getValue();
+                    var rightFloat = (float) rightValue.getValue();
+
+                    return new Value(Type.Float, leftFloat + rightFloat);
+                }
+
+                // TODO: custom exceptions
+                throw new Exception("Invalid operation: Addition between " + leftValue.getType() + " and " + rightValue.getType());
+            }
+            case Subtraction: {
+                if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
+                    var leftInt = (int) leftValue.getValue();
+                    var rightInt = (int) rightValue.getValue();
+
+                    return new Value(Type.Integer, leftInt - rightInt);
+                }
+
+                if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
+                    var leftFloat = (float) leftValue.getValue();
+                    var rightFloat = (float) rightValue.getValue();
+
+                    return new Value(Type.Float, leftFloat - rightFloat);
+                }
+
+                throw new Exception("Invalid operation: Subtraction between " + leftValue.getType() + " and " + rightValue.getType());
+            }
+            case Multiplication: {
+                if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
+                    var leftInt = (int) leftValue.getValue();
+                    var rightInt = (int) rightValue.getValue();
+
+                    return new Value(Type.Integer, leftInt * rightInt);
+                }
+
+                if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
+                    var leftFloat = (float) leftValue.getValue();
+                    var rightFloat = (float) rightValue.getValue();
+
+                    return new Value(Type.Float, leftFloat * rightFloat);
+                }
+
+                throw new Exception("Invalid operation: Multiplication between " + leftValue.getType() + " and " + rightValue.getType());
+            }
+            case Division: {
+                if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
+                    var leftInt = (int) leftValue.getValue();
+                    var rightInt = (int) rightValue.getValue();
+
+                    if (rightInt == 0) {
+                        throw new Exception("Division by zero");
+                    }
+
+                    return new Value(Type.Integer, leftInt / rightInt);
+                }
+
+                if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
+                    var leftFloat = (float) leftValue.getValue();
+                    var rightFloat = (float) rightValue.getValue();
+
+                    if (rightFloat == 0) {
+                        throw new Exception("Division by zero");
+                    }
+
+                    return new Value(Type.Float, leftFloat / rightFloat);
+                }
+
+                throw new Exception("Invalid operation: Division between " + leftValue.getType() + " and " + rightValue.getType());
+            }
+            case Equals: {
+                return new Value(Type.Boolean, leftValue.equals(rightValue));
+            }
+            case NotEquals: {
+                return new Value(Type.Boolean, !leftValue.equals(rightValue));
+            }
+            case GreaterThan: {
+                if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
+                    var leftInt = (int) leftValue.getValue();
+                    var rightInt = (int) rightValue.getValue();
+
+                    return new Value(Type.Boolean, leftInt > rightInt);
+                }
+
+                if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
+                    var leftFloat = (float) leftValue.getValue();
+                    var rightFloat = (float) rightValue.getValue();
+
+                    return new Value(Type.Boolean, leftFloat > rightFloat);
+                }
+
+                throw new Exception("Invalid operation: GreaterThan between " + leftValue.getType() + " and " + rightValue.getType());
+            }
+            case GreaterThanOrEqual: {
+                if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
+                    var leftInt = (int) leftValue.getValue();
+                    var rightInt = (int) rightValue.getValue();
+
+                    return new Value(Type.Boolean, leftInt >= rightInt);
+                }
+
+                if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
+                    var leftFloat = (float) leftValue.getValue();
+                    var rightFloat = (float) rightValue.getValue();
+
+                    return new Value(Type.Boolean, leftFloat >= rightFloat);
+                }
+
+                throw new Exception("Invalid operation: GreaterThanOrEqual between " + leftValue.getType() + " and " + rightValue.getType());
+            }
+            case LessThan: {
+                if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
+                    var leftInt = (int) leftValue.getValue();
+                    var rightInt = (int) rightValue.getValue();
+
+                    return new Value(Type.Boolean, leftInt < rightInt);
+                }
+
+                if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
+                    var leftFloat = (float) leftValue.getValue();
+                    var rightFloat = (float) rightValue.getValue();
+
+                    return new Value(Type.Boolean, leftFloat < rightFloat);
+                }
+
+                throw new Exception("Invalid operation: LessThan between " + leftValue.getType() + " and " + rightValue.getType());
+            }
+            case LessThanOrEqual: {
+                if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
+                    var leftInt = (int) leftValue.getValue();
+                    var rightInt = (int) rightValue.getValue();
+
+                    return new Value(Type.Boolean, leftInt <= rightInt);
+                }
+
+                if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
+                    var leftFloat = (float) leftValue.getValue();
+                    var rightFloat = (float) rightValue.getValue();
+
+                    return new Value(Type.Boolean, leftFloat <= rightFloat);
+                }
+
+                throw new Exception("Invalid operation: LessThanOrEqual between " + leftValue.getType() + " and " + rightValue.getType());
+            }
+            default: throw new Exception("Not implemented yet");
+        }
     }
 }
