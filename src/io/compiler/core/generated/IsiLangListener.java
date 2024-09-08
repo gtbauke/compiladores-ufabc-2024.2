@@ -281,6 +281,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 */
 	void exitUnary(IsiLangParser.UnaryContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#grouped_expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterGrouped_expression(IsiLangParser.Grouped_expressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#grouped_expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitGrouped_expression(IsiLangParser.Grouped_expressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#boolean_literal}.
 	 * @param ctx the parse tree
 	 */

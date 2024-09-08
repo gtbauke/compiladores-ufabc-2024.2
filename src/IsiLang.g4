@@ -285,7 +285,7 @@ factorl : ((OP_FACTOR) {
     stack.push(binaryOperation);
 })*;
 
-unary : boolean_literal | unary_op | NUM {
+unary : grouped_expression | boolean_literal | unary_op | NUM {
     if (_input.LT(-1).getText().contains(".")) {
         var floatLiteral = new FloatLiteralNode(Float.parseFloat(_input.LT(-1).getText()));
         stack.push(floatLiteral);
@@ -297,6 +297,8 @@ unary : boolean_literal | unary_op | NUM {
     var stringLiteral = new StringLiteralNode(_input.LT(-1).getText());
     stack.push(stringLiteral);
 };
+
+grouped_expression : OPEN_PAREN expression CLOSE_PAREN;
 
 boolean_literal : (TRUE | FALSE) {
     var booleanLiteral = new BooleanLiteralNode(_input.LT(-1).getText().equals("verdadeiro"));
