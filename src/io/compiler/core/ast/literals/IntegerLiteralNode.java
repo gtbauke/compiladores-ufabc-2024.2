@@ -8,6 +8,7 @@ public class IntegerLiteralNode extends LiteralAstNode {
     private final int value;
 
     public IntegerLiteralNode(int value) {
+        super(Type.Integer);
         this.value = value;
     }
 

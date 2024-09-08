@@ -5,10 +5,10 @@ public class Binding {
     private final Type type;
     private boolean isInitialized;
 
-    public Binding(String identifier, Type type) {
+    public Binding(String identifier, Type type, boolean isInitialized) {
         this.identifier = identifier;
         this.type = type;
-        this.isInitialized = false;
+        this.isInitialized = isInitialized;
     }
 
     public String getIdentifier() {

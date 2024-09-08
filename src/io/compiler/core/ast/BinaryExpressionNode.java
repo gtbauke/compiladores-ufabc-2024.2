@@ -10,16 +10,19 @@ public class BinaryExpressionNode extends AstNode {
     private final BinaryOperator operator;
 
     public BinaryExpressionNode(AstNode left, BinaryOperator operator, AstNode right) {
+        super(left.type);
         this.left = left;
         this.right = right;
         this.operator = operator;
     }
 
     public BinaryExpressionNode(char operator) {
+        super(Type.Void);
         this.operator = BinaryOperator.fromString(String.valueOf(operator));
     }
 
     public BinaryExpressionNode(BinaryOperator operator) {
+        super(Type.Void);
         this.operator = operator;
     }
 
@@ -29,6 +32,7 @@ public class BinaryExpressionNode extends AstNode {
 
     public void setLeft(AstNode left) {
         this.left = left;
+        this.type = left.type;
     }
 
     public AstNode getRight() {

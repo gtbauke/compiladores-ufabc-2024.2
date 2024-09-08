@@ -3,9 +3,13 @@ package io.compiler.core.generated;
 
     import io.compiler.core.ast.*;
     import io.compiler.core.ast.literals.*;
+    import io.compiler.core.ast.statements.*;
+    import io.compiler.core.operators.*;
+    import io.compiler.core.exceptions.*;
     import io.compiler.types.*;
     import java.util.Stack;
-    import io.compiler.core.operators.*;
+    import java.util.ArrayList;
+    import java.util.HashMap;
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -18,17 +22,47 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface IsiLangVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link IsiLangParser#expression}.
+	 * Visit a parse tree produced by {@link IsiLangParser#program}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(IsiLangParser.ExpressionContext ctx);
+	T visitProgram(IsiLangParser.ProgramContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDeclaration(IsiLangParser.DeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(IsiLangParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#attribution}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAttribution(IsiLangParser.AttributionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#print}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrint(IsiLangParser.PrintContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link IsiLangParser#assignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAssignment(IsiLangParser.AssignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression(IsiLangParser.ExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link IsiLangParser#logical_or}.
 	 * @param ctx the parse tree

@@ -1,10 +1,12 @@
-package io.compiler.core.ast;
+package io.compiler.core.ast.statements;
 
+import io.compiler.core.ast.AstNode;
+import io.compiler.core.ast.StatementNode;
 import io.interpreter.Value;
 
 import java.util.List;
 
-public class IfStatementNode extends AstNode {
+public class IfStatementNode extends StatementNode {
     private final AstNode condition;
     private final List<AstNode> thenBranch;
     private final List<AstNode> elseBranch;

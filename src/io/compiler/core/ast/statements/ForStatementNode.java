@@ -1,10 +1,12 @@
-package io.compiler.core.ast;
+package io.compiler.core.ast.statements;
 
+import io.compiler.core.ast.AstNode;
+import io.compiler.core.ast.StatementNode;
 import io.interpreter.Value;
 
 import java.util.List;
 
-public class ForStatementNode extends AstNode {
+public class ForStatementNode extends StatementNode {
     private final AstNode initialization;
     private final AstNode condition;
     private final AstNode increment;
