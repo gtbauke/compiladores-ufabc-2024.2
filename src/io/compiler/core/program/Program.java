@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Program implements IJavaTarget, ICTarget {
+    public static final String SCANNER_NAME = "__scanner";
+
     private final List<BindingNode> declarations;
     private final List<StatementNode> statements;
 
@@ -38,7 +40,7 @@ public class Program implements IJavaTarget, ICTarget {
     public String generateCTarget() {
         var builder = new StringBuilder();
 
-        builder.append("#include <stdio.h>\n\n");
+        builder.append("#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n");
         builder.append("int main() {\n");
 
         for (var declaration : declarations) {
@@ -59,10 +61,11 @@ public class Program implements IJavaTarget, ICTarget {
     public String generateJavaTarget() {
         var builder = new StringBuilder();
 
-        // TODO: import scanner
+        builder.append("import java.util.Scanner;\n\n");
 
         builder.append("public class Main {\n");
         builder.append("    public static void main(String[] args) {\n");
+        builder.append("        Scanner " + SCANNER_NAME + " = new Scanner(System.in);\n");
 
         for (var declaration : declarations) {
             builder.append(declaration.generateJavaTarget());
@@ -72,6 +75,7 @@ public class Program implements IJavaTarget, ICTarget {
             builder.append(statement.generateJavaTarget());
         }
 
+        builder.append("        " + SCANNER_NAME + ".close();\n");
         builder.append("    }\n");
         builder.append("}\n");
 

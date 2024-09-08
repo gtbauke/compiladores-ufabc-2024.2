@@ -30,14 +30,24 @@ public class BindingNode extends AstNode {
     @Override
     public String generateCTarget() {
         var builder = new StringBuilder();
-        var typeString = type.generateCTarget();
 
-        builder.append(typeString).append(" ").append(identifier);
-        if (initializer != null) {
-            builder.append(" = ").append(initializer.generateCTarget());
+        if (type == Type.String) {
+            builder.append("char ").append(identifier).append("[256];\n");
+
+            if (initializer != null) {
+                builder.append("strcpy(").append(identifier).append(", ").append(initializer.generateCTarget()).append(");\n");
+            }
+        } else {
+            var typeString = type.generateCTarget();
+
+            builder.append(typeString).append(" ").append(identifier);
+            if (initializer != null) {
+                builder.append(" = ").append(initializer.generateCTarget());
+            }
+
+            builder.append(";\n");
         }
 
-        builder.append(";\n");
         return builder.toString();
     }
 

@@ -1,14 +1,9 @@
 programa
-    int i;
+    string nome = "";
 inicio
-    para (i = 0; i < 10; i = i + 1) {
-        escreva(i);
-    }
+    escreva(nome);
+    escreva("Digite seu nome: ");
+    leia(nome);
 
-    i = 0;
-
-    enquanto (i < 10) {
-        escreva(i);
-        i = i + 1;
-    }
+    escreva(nome);
 fimprog.

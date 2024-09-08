@@ -107,7 +107,6 @@ public class BinaryExpressionNode extends AstNode {
                     return new Value(Type.Float, leftFloat + rightFloat);
                 }
 
-                // TODO: custom exceptions
                 throw new Exception("Invalid operation: Addition between " + leftValue.getType() + " and " + rightValue.getType());
             }
             case Subtraction: {

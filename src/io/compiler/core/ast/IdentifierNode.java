@@ -7,7 +7,6 @@ import io.interpreter.Value;
 public class IdentifierNode extends AstNode {
     private final String name;
 
-    // TODO: when parsing an identifier, retrieve type from symbol table
     public IdentifierNode(String name) {
         super(Type.Void);
         this.name = name;
