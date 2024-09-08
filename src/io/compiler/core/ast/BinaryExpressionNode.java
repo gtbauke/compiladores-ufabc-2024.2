@@ -4,8 +4,8 @@ import io.compiler.core.operators.BinaryOperator;
 import io.interpreter.Value;
 
 public class BinaryExpressionNode extends AstNode {
-    private final AstNode left;
-    private final AstNode right;
+    private AstNode left;
+    private AstNode right;
     private final BinaryOperator operator;
 
     public BinaryExpressionNode(AstNode left, BinaryOperator operator, AstNode right) {
@@ -14,12 +14,28 @@ public class BinaryExpressionNode extends AstNode {
         this.operator = operator;
     }
 
+    public BinaryExpressionNode(char operator) {
+        this.operator = BinaryOperator.fromString(String.valueOf(operator));
+    }
+
+    public BinaryExpressionNode(BinaryOperator operator) {
+        this.operator = operator;
+    }
+
     public AstNode getLeft() {
         return left;
     }
 
+    public void setLeft(AstNode left) {
+        this.left = left;
+    }
+
     public AstNode getRight() {
         return right;
+    }
+
+    public void setRight(AstNode right) {
+        this.right = right;
     }
 
     public BinaryOperator getOperator() {

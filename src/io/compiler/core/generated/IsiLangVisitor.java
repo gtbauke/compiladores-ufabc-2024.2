@@ -1,0 +1,110 @@
+// Generated from C:/Users/gusta/dev/compildores-2024-2-ufabc/src/IsiLang.g4 by ANTLR 4.13.1
+package io.compiler.core.generated;
+
+    import io.compiler.core.ast.*;
+    import io.compiler.core.ast.literals.*;
+    import io.compiler.types.*;
+    import java.util.Stack;
+    import io.compiler.core.operators.*;
+
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+
+/**
+ * This interface defines a complete generic visitor for a parse tree produced
+ * by {@link IsiLangParser}.
+ *
+ * @param <T> The return type of the visit operation. Use {@link Void} for
+ * operations with no return type.
+ */
+public interface IsiLangVisitor<T> extends ParseTreeVisitor<T> {
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression(IsiLangParser.ExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment(IsiLangParser.AssignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#logical_or}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogical_or(IsiLangParser.Logical_orContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#logical_orl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogical_orl(IsiLangParser.Logical_orlContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#logical_and}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogical_and(IsiLangParser.Logical_andContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#logical_andl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogical_andl(IsiLangParser.Logical_andlContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#equality}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEquality(IsiLangParser.EqualityContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#equalityl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqualityl(IsiLangParser.EqualitylContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#comparison}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparison(IsiLangParser.ComparisonContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#comparisonl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparisonl(IsiLangParser.ComparisonlContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#term}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTerm(IsiLangParser.TermContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#terml}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTerml(IsiLangParser.TermlContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFactor(IsiLangParser.FactorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#factorl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFactorl(IsiLangParser.FactorlContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#unary}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnary(IsiLangParser.UnaryContext ctx);
+}

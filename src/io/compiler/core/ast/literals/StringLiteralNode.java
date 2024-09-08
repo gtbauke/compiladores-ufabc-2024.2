@@ -4,7 +4,7 @@ import io.compiler.core.ast.AstNode;
 import io.compiler.types.Type;
 import io.interpreter.Value;
 
-public class StringLiteralNode extends AstNode {
+public class StringLiteralNode extends LiteralAstNode {
     private final String value;
 
     public StringLiteralNode(String value) {

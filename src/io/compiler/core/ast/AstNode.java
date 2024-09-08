@@ -4,4 +4,8 @@ import io.compiler.core.targets.ICTarget;
 import io.compiler.core.targets.IJavaTarget;
 import io.interpreter.IInterpretable;
 
-public abstract class AstNode implements IJavaTarget, ICTarget, IInterpretable { }
+public abstract class AstNode implements IJavaTarget, ICTarget, IInterpretable {
+    public boolean isLiteral() {
+        return false;
+    }
+}

@@ -4,7 +4,7 @@ import io.compiler.core.ast.AstNode;
 import io.compiler.types.Type;
 import io.interpreter.Value;
 
-public class IntegerLiteralNode extends AstNode {
+public class IntegerLiteralNode extends LiteralAstNode {
     private final int value;
 
     public IntegerLiteralNode(int value) {

@@ -197,38 +197,135 @@ exprl		: ( OP { strExpr += _input.LT(-1).getText(); }
               ) *
 			;*/
 
-OP			: '+' | '-' | '*' | '/'
-			;
+@header {
+    import io.compiler.core.ast.*;
+    import io.compiler.core.ast.literals.*;
+    import io.compiler.types.*;
+    import java.util.Stack;
+    import io.compiler.core.operators.*;
+}
 
-OP_AT	    : '='
-		    ;
+@members {
+    private Stack<AstNode> stack = new Stack<AstNode>();
+    private AstNode root = null;
 
-OPREL       : '>' | '<' | '>=' | '<= ' | '<>' | '=='
-			;
+    public AstNode getRoot(){
+        if (root == null) {
+            root = stack.pop();
+        }
 
-ID			: [a-z] ( [a-z] | [A-Z] | [0-9] )*
-			;
+        return root;
+    }
+}
 
-NUM			: [0-9]+ ('.' [0-9]+ )?
-			;
+/* TODO: handle assingmnts, check for undeclared variables or already declared variables */
+expression : assignment END_OF_LINE;
+assignment : (IDENTIFIER '=' assignment) | logical_or;
 
-VIRG		: ','
-			;
+logical_or : logical_and logical_orl;
 
-PV			: ';'
-            ;
+logical_orl : ((OP_OR) {
+    var operator = BinaryOperator.fromString(_input.LT(-1).getText());
+    var binaryOperation = new BinaryExpressionNode(operator);
 
-AP			: '('
-			;
+    binaryOperation.setLeft(stack.pop());
+} equality {
+    binaryOperation.setRight(stack.pop());
+    stack.push(binaryOperation);
+})*;
 
-FP			: ')'
-			;
+logical_and : equality logical_andl;
 
-DP			: ':'
-		    ;
+logical_andl : ((OP_AND) {
+    var operator = BinaryOperator.fromString(_input.LT(-1).getText());
+    var binaryOperation = new BinaryExpressionNode(operator);
 
-TEXTO       : '"' ( [a-z] | [A-Z] | [0-9] | ',' | '.' | ' ' | '-' )* '"'
-			;
+    binaryOperation.setLeft(stack.pop());
+} equality {
+    binaryOperation.setRight(stack.pop());
+    stack.push(binaryOperation);
+})*;
+
+equality : comparison equalityl;
+
+equalityl : ((OP_COMP) {
+    var operator = BinaryOperator.fromString(_input.LT(-1).getText());
+    var binaryOperation = new BinaryExpressionNode(operator);
+
+    binaryOperation.setLeft(stack.pop());
+} comparison {
+    binaryOperation.setRight(stack.pop());
+    stack.push(binaryOperation);
+})*;
+
+comparison : term comparisonl;
+
+comparisonl : ((OP_REL) {
+    var operator = BinaryOperator.fromString(_input.LT(-1).getText());
+    var binaryOperation = new BinaryExpressionNode(operator);
+
+    binaryOperation.setLeft(stack.pop());
+} term {
+    binaryOperation.setRight(stack.pop());
+    stack.push(binaryOperation);
+})*;
+
+term : factor terml;
+
+terml : ((OP_TERM) {
+    var operator = BinaryOperator.fromString(_input.LT(-1).getText());
+    var binaryOperation = new BinaryExpressionNode(operator);
+
+    binaryOperation.setLeft(stack.pop());
+} factor {
+    binaryOperation.setRight(stack.pop());
+    stack.push(binaryOperation);
+})*;
+
+factor : unary factorl;
+
+factorl : ((OP_FACTOR) {
+    var operator = BinaryOperator.fromString(_input.LT(-1).getText());
+    var binaryOperation = new BinaryExpressionNode(operator);
+
+    if (stack.peek().isLiteral()) {
+        binaryOperation.setLeft(stack.pop());
+    } else {
+        var other = (BinaryExpressionNode)stack.pop();
+
+        if (other.getOperator().getValue() < operator.getValue()) {
+            binaryOperation.setLeft(other.getRight());
+            other.setRight(binaryOperation);
+        } else {
+            binaryOperation.setLeft(other);
+            stack.push(binaryOperation);
+        }
+    }
+} unary {
+    binaryOperation.setRight(stack.pop());
+    stack.push(binaryOperation);
+})*;
+
+unary : NUM {
+    if (_input.LT(-1).getText().contains(".")) {
+        var floatLiteral = new FloatLiteralNode(Float.parseFloat(_input.LT(-1).getText()));
+        stack.push(floatLiteral);
+    } else {
+        var intLiteral = new IntegerLiteralNode(Integer.parseInt(_input.LT(-1).getText()));
+        stack.push(intLiteral);
+    }
+};
+
+END_OF_LINE : ';';
+IDENTIFIER : [a-zA-Z_]([a-zA-Z_0-9])*;
+NUM : ('-')?[0-9]+('.'[0-9]+)?;
+
+OP_OR : '||';
+OP_AND : '&&';
+OP_COMP : '==' | '!=';
+OP_REL : '<' | '>' | '<=' | '>=';
+OP_TERM : '+' | '-';
+OP_FACTOR : '*' | '/';
 
 WS			: (' ' | '\n' | '\r' | '\t' ) -> skip
 			;
