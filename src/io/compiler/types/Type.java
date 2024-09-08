@@ -46,10 +46,9 @@ public enum Type implements IJavaTarget, ICTarget {
     @Override
     public java.lang.String generateCTarget() {
         return switch (this) {
-            case Integer -> "int";
+            case Integer, Boolean -> "int";
             case Float -> "float";
             case String -> "char*";
-            case Boolean -> "bool";
             case Void -> "void";
         };
     }
@@ -57,10 +56,11 @@ public enum Type implements IJavaTarget, ICTarget {
     @Override
     public java.lang.String generateJavaTarget() {
         return switch (this) {
-            case Integer, Boolean -> "int";
+            case Integer -> "int";
             case Float -> "float";
             case String -> "String";
             case Void -> "void";
+            case Boolean -> "boolean";
         };
     }
 }

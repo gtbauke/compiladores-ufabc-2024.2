@@ -7,6 +7,7 @@ grammar IsiLang;
     import io.compiler.core.operators.*;
     import io.compiler.core.exceptions.*;
     import io.compiler.core.warnings.*;
+    import io.compiler.core.program.*;
     import io.compiler.types.*;
     import java.util.Stack;
     import java.util.ArrayList;
@@ -14,6 +15,7 @@ grammar IsiLang;
 }
 
 @members {
+    private Program program;
     private HashMap<String, Binding> symbols = new HashMap<String, Binding>();
 
     private Stack<AstNode> stack = new Stack<AstNode>();
@@ -48,6 +50,10 @@ grammar IsiLang;
 
     private boolean isInitializingVariable = false;
     private boolean hasElseBranch = false;
+
+    public Program getProgram() {
+        return program;
+    }
 }
 
 program : 'programa' declaration 'inicio' block 'fimprog' DOT {
@@ -60,6 +66,9 @@ program : 'programa' declaration 'inicio' block 'fimprog' DOT {
             System.out.println("WARNING: " + warning.getMessage());
         }
     }
+
+    var program_ = new Program(declarations, statements, symbols);
+    this.program = program_;
 };
 
 declaration : assignment*;

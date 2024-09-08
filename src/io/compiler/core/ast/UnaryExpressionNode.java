@@ -2,6 +2,7 @@ package io.compiler.core.ast;
 
 import io.compiler.core.operators.UnaryOperator;
 import io.compiler.types.Type;
+import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 import java.util.Objects;
@@ -50,8 +51,8 @@ public class UnaryExpressionNode extends AstNode {
     }
 
     @Override
-    public Value interpret() throws Exception {
-        var operandValue = operand.interpret();
+    public Value interpret(Interpreter interpreter) throws Exception {
+        var operandValue = operand.interpret(interpreter);
 
         if (Objects.requireNonNull(operator) == UnaryOperator.NOT) {
             if (!operandValue.is(Type.Boolean)) {

@@ -2,6 +2,8 @@ package io.compiler.core.ast.statements;
 
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
+import io.compiler.types.Type;
+import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 public class AssignmentStatementNode extends StatementNode {
@@ -15,16 +17,19 @@ public class AssignmentStatementNode extends StatementNode {
 
     @Override
     public String generateCTarget() {
-        return identifier + " = " + expression.generateCTarget() + ";";
+        return identifier + " = " + expression.generateCTarget() + ";\n";
     }
 
     @Override
     public String generateJavaTarget() {
-        return identifier + " = " + expression.generateJavaTarget() + ";";
+        return identifier + " = " + expression.generateJavaTarget() + ";\n";
     }
 
     @Override
-    public Value interpret() throws Exception {
-        throw new Exception("AssignmentStatementNode.interpret() not implemented");
+    public Value interpret(Interpreter interpreter) throws Exception {
+        var value = expression.interpret(interpreter);
+        interpreter.updateValue(identifier, value);
+
+        return new Value(Type.Void, null);
     }
 }

@@ -1,7 +1,7 @@
 package io.compiler.core.ast.literals;
 
-import io.compiler.core.ast.AstNode;
 import io.compiler.types.Type;
+import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 public class IntegerLiteralNode extends LiteralAstNode {
@@ -23,7 +23,7 @@ public class IntegerLiteralNode extends LiteralAstNode {
     }
 
     @Override
-    public Value interpret() {
+    public Value interpret(Interpreter interpreter) {
         return new Value(Type.Integer, value);
     }
 }

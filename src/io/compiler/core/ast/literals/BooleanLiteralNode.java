@@ -1,6 +1,7 @@
 package io.compiler.core.ast.literals;
 
 import io.compiler.types.Type;
+import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 public class BooleanLiteralNode extends LiteralAstNode {
@@ -30,7 +31,7 @@ public class BooleanLiteralNode extends LiteralAstNode {
     }
 
     @Override
-    public Value interpret() throws Exception {
+    public Value interpret(Interpreter interpreter) throws Exception {
         return new Value(Type.Boolean, value);
     }
 }
