@@ -36,7 +36,7 @@ public enum Type implements IJavaTarget, ICTarget {
             case "int" -> Integer;
             case "float" -> Float;
             case "string" -> String;
-            case "bool" -> Boolean;
+            case "boolean" -> Boolean;
             case "void" -> Void;
             default -> throw new IllegalArgumentException("Invalid value: " + value);
         };

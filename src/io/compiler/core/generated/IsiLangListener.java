@@ -239,4 +239,34 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitUnary(IsiLangParser.UnaryContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#boolean_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterBoolean_literal(IsiLangParser.Boolean_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#boolean_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitBoolean_literal(IsiLangParser.Boolean_literalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(IsiLangParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(IsiLangParser.IdentifierContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#unary_op}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnary_op(IsiLangParser.Unary_opContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#unary_op}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnary_op(IsiLangParser.Unary_opContext ctx);
 }
