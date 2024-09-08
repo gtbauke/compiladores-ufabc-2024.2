@@ -4,11 +4,13 @@ public class Binding {
     private final String identifier;
     private final Type type;
     private boolean isInitialized;
+    private boolean isUsed;
 
     public Binding(String identifier, Type type, boolean isInitialized) {
         this.identifier = identifier;
         this.type = type;
         this.isInitialized = isInitialized;
+        this.isUsed = false;
     }
 
     public String getIdentifier() {
@@ -25,6 +27,14 @@ public class Binding {
 
     public void setInitialized() {
         isInitialized = true;
+    }
+
+    public boolean isUsed() {
+        return isUsed;
+    }
+
+    public void setUsed() {
+        isUsed = true;
     }
 
     @Override

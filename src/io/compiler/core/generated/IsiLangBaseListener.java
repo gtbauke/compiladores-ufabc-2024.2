@@ -6,6 +6,7 @@ package io.compiler.core.generated;
     import io.compiler.core.ast.statements.*;
     import io.compiler.core.operators.*;
     import io.compiler.core.exceptions.*;
+    import io.compiler.core.warnings.*;
     import io.compiler.types.*;
     import java.util.Stack;
     import java.util.ArrayList;
@@ -52,6 +53,18 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBlock(IsiLangParser.BlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBlock(IsiLangParser.BlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterStatement(IsiLangParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -83,6 +96,18 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPrint(IsiLangParser.PrintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIf(IsiLangParser.IfContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIf(IsiLangParser.IfContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

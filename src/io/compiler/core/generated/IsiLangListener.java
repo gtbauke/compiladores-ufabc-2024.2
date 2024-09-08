@@ -6,6 +6,7 @@ package io.compiler.core.generated;
     import io.compiler.core.ast.statements.*;
     import io.compiler.core.operators.*;
     import io.compiler.core.exceptions.*;
+    import io.compiler.core.warnings.*;
     import io.compiler.types.*;
     import java.util.Stack;
     import java.util.ArrayList;
@@ -39,6 +40,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 */
 	void exitDeclaration(IsiLangParser.DeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(IsiLangParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(IsiLangParser.BlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#statement}.
 	 * @param ctx the parse tree
 	 */
@@ -68,6 +79,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrint(IsiLangParser.PrintContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#if}.
+	 * @param ctx the parse tree
+	 */
+	void enterIf(IsiLangParser.IfContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#if}.
+	 * @param ctx the parse tree
+	 */
+	void exitIf(IsiLangParser.IfContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#assignment}.
 	 * @param ctx the parse tree

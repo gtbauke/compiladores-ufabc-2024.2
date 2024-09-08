@@ -6,6 +6,7 @@ grammar IsiLang;
     import io.compiler.core.ast.statements.*;
     import io.compiler.core.operators.*;
     import io.compiler.core.exceptions.*;
+    import io.compiler.core.warnings.*;
     import io.compiler.types.*;
     import java.util.Stack;
     import java.util.ArrayList;
@@ -46,20 +47,79 @@ grammar IsiLang;
     }
 
     private boolean isInitializingVariable = false;
+    private boolean hasElseBranch = false;
 }
 
 /* TODO: handle assingmnts, check for undeclared variables or already declared variables */
-program : 'program' IDENTIFIER 'declares' declaration+ 'begin' statement+ 'end' END_OF_LINE;
+program : 'programa' declaration 'inicio' block 'fimprog' DOT {
+    for (var declaration : declarations) {
+        var identifier = declaration.getIdentifier();
+        var symbol = symbols.get(identifier);
 
-declaration : assignment+;
+        if (!symbol.isUsed()) {
+            var warning = new UnusedVariableWarning(identifier);
+            System.out.println("WARNING: " + warning.getMessage());
+        }
+    }
+};
 
-statement : attribution | print;
+declaration : assignment*;
+block : statement+;
 
-attribution : IDENTIFIER '=' expression END_OF_LINE;
+statement : print | if | attribution;
 
-print : 'print' OPEN_PAREN expression CLOSE_PAREN END_OF_LINE {
+attribution : IDENTIFIER {
+    var identifierString = _input.LT(-1).getText();
+    var identifier = new IdentifierNode(identifierString);
+
+    if (!symbols.containsKey(identifier.getName())) {
+        throw new UndeclaredVariableException(identifier.getName());
+    }
+
+    var symbol = symbols.get(identifier.getName());
+    var symbolType = symbol.getType();
+} '=' expression {
+    var expression = stack.pop();
+
+    if (symbolType != expression.getType()) {
+        throw new AssignmentTypeMismatchException(symbolType, expression.getType());
+    }
+
+    var assignment = new AssignmentStatementNode(identifier.getName(), expression);
+    symbol.setInitialized();
+
+    addStatement(assignment);
+} END_OF_LINE;
+
+print : 'escreva' OPEN_PAREN expression CLOSE_PAREN END_OF_LINE {
     var printStatement = new PrintStatementNode(stack.pop());
     addStatement(printStatement);
+};
+
+if : 'se' OPEN_PAREN expression {
+    var condition = stack.pop();
+
+    var thenBranch = new ArrayList<StatementNode>();
+    var elseBranch = new ArrayList<StatementNode>();
+} CLOSE_PAREN 'entao' OPEN_CURLY (statement {
+    var lastStatement = statements.get(statements.size() - 1);
+    statements.remove(statements.size() - 1);
+
+    thenBranch.add(lastStatement);
+})+ CLOSE_CURLY ('senao' {
+    hasElseBranch = true;
+} OPEN_CURLY (statement {
+    if (hasElseBranch) {
+        var lastStatement = statements.get(statements.size() - 1);
+        statements.remove(statements.size() - 1);
+
+        elseBranch.add(lastStatement);
+    }
+})+ CLOSE_CURLY)? {
+    var ifStatement = new IfStatementNode(condition, thenBranch, elseBranch);
+    addStatement(ifStatement);
+
+    hasElseBranch = false;
 };
 
 // TODO: check if variable is already declared
@@ -184,6 +244,14 @@ unary : NUM {
     if (symbols.containsKey(identifier.getName())) {
         var binding = symbols.get(identifier.getName());
         identifier.setType(binding.getType());
+
+        var isInitialized = binding.isInitialized();
+        if (!isInitialized) {
+            var warning = new VariableUsedWithoutInitializationWarning(identifier.getName());
+            System.out.println("WARNING: " + warning.getMessage());
+        }
+
+        binding.setUsed();
     }
 
     stack.push(identifier);
@@ -204,8 +272,13 @@ OP_REL : '<' | '>' | '<=' | '>=';
 OP_TERM : '+' | '-';
 OP_FACTOR : '*' | '/';
 
+DOT : '.';
+
 OPEN_PAREN : '(';
 CLOSE_PAREN : ')';
+
+OPEN_CURLY : '{';
+CLOSE_CURLY : '}';
 
 WS			: (' ' | '\n' | '\r' | '\t' ) -> skip
 			;
