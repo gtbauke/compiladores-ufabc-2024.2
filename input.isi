@@ -1,13 +1,15 @@
 programa
     string name = "Gustavo Bauke";
     int age;
+    int valor = 10;
+    boolean flag = verdadeiro;
 inicio
     age = 21;
 
     escreva(name);
     escreva(age);
 
-    se (age > 18) entao {
+    se (age > 18 && valor - 9 < 4 && !flag) entao {
         escreva("Maior de idade");
     } senao {
         escreva("Menor de idade");

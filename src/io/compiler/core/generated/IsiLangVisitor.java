@@ -154,4 +154,22 @@ public interface IsiLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitUnary(IsiLangParser.UnaryContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#boolean_literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolean_literal(IsiLangParser.Boolean_literalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#identifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifier(IsiLangParser.IdentifierContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#unary_op}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnary_op(IsiLangParser.Unary_opContext ctx);
 }

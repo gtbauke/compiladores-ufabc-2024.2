@@ -50,7 +50,6 @@ grammar IsiLang;
     private boolean hasElseBranch = false;
 }
 
-/* TODO: handle assingmnts, check for undeclared variables or already declared variables */
 program : 'programa' declaration 'inicio' block 'fimprog' DOT {
     for (var declaration : declarations) {
         var identifier = declaration.getIdentifier();
@@ -122,7 +121,6 @@ if : 'se' OPEN_PAREN expression {
     hasElseBranch = false;
 };
 
-// TODO: check if variable is already declared
 assignment : ('int' | 'float' | 'string' | 'boolean') {
     var typeString = _input.LT(-1).getText();
     var type = Type.fromString(typeString);
@@ -139,7 +137,7 @@ assignment : ('int' | 'float' | 'string' | 'boolean') {
     var initializer = isInitializingVariable ? stack.pop() : null;
 
     if (isInitializingVariable && initializer.getType() != type) {
-        throw new DeclarationTypeMismatchException(type, initializer.getType());
+        throw new DeclarationTypeMismatchException(identifier.getName(), type, initializer.getType());
     }
 
     var binding = new BindingNode(identifier.getName(), type, initializer);
@@ -234,7 +232,7 @@ factorl : ((OP_FACTOR) {
     stack.push(binaryOperation);
 })*;
 
-unary : NUM {
+unary : boolean_literal | unary_op | NUM {
     if (_input.LT(-1).getText().contains(".")) {
         var floatLiteral = new FloatLiteralNode(Float.parseFloat(_input.LT(-1).getText()));
         stack.push(floatLiteral);
@@ -242,29 +240,48 @@ unary : NUM {
         var intLiteral = new IntegerLiteralNode(Integer.parseInt(_input.LT(-1).getText()));
         stack.push(intLiteral);
     }
-} | IDENTIFIER {
-    var identifier = new IdentifierNode(_input.LT(-1).getText());
-
-    if (symbols.containsKey(identifier.getName())) {
-        var binding = symbols.get(identifier.getName());
-        identifier.setType(binding.getType());
-
-        var isInitialized = binding.isInitialized();
-        if (!isInitialized) {
-            var warning = new VariableUsedWithoutInitializationWarning(identifier.getName());
-            System.out.println("WARNING: " + warning.getMessage());
-        }
-
-        binding.setUsed();
-    }
-
-    stack.push(identifier);
-} | STRING {
+} | identifier | STRING {
     var stringLiteral = new StringLiteralNode(_input.LT(-1).getText());
     stack.push(stringLiteral);
 };
 
+boolean_literal : (TRUE | FALSE) {
+    var booleanLiteral = new BooleanLiteralNode(_input.LT(-1).getText().equals("verdadeiro"));
+    stack.push(booleanLiteral);
+};
+
+identifier : IDENTIFIER {
+    var identifier = new IdentifierNode(_input.LT(-1).getText());
+
+    if (symbols.containsKey(identifier.getName())) {
+     var binding = symbols.get(identifier.getName());
+     identifier.setType(binding.getType());
+
+     var isInitialized = binding.isInitialized();
+     if (!isInitialized) {
+         var warning = new VariableUsedWithoutInitializationWarning(identifier.getName());
+         System.out.println("WARNING: " + warning.getMessage());
+     }
+
+     binding.setUsed();
+    }
+
+    stack.push(identifier);
+};
+
+unary_op : OP_NOT {
+    var operator = UnaryOperator.fromString(_input.LT(-1).getText());
+    var unaryOperation = new UnaryExpressionNode(operator);
+} (boolean_literal | identifier {
+    unaryOperation.setOperand(stack.pop());
+    stack.push(unaryOperation);
+});
+
 END_OF_LINE : ';';
+
+TRUE : 'verdadeiro';
+FALSE : 'falso';
+
 IDENTIFIER : [a-zA-Z_]([a-zA-Z_0-9])*;
 NUM : ('-')?[0-9]+('.'[0-9]+)?;
 STRING : '"' ~[\r\n"]* '"';
@@ -275,6 +292,7 @@ OP_COMP : '==' | '!=';
 OP_REL : '<' | '>' | '<=' | '>=';
 OP_TERM : '+' | '-';
 OP_FACTOR : '*' | '/';
+OP_NOT : '!';
 
 DOT : '.';
 
