@@ -10,6 +10,14 @@ public class Value {
         this.type = type;
         this.value = value;
     }
+
+    public boolean asBoolean() throws Exception {
+        if (!is(Type.Boolean)) {
+            throw new Exception("Value is not a boolean");
+        }
+
+        return (boolean) value;
+    }
     
     public Type getType() {
         return type;

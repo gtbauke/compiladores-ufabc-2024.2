@@ -74,30 +74,52 @@ program : 'programa' declaration 'inicio' block 'fimprog' DOT {
 declaration : assignment*;
 block : statement+;
 
-statement : print | if | attribution;
+statement : print | if | attribution | for;
 
-attribution : IDENTIFIER {
+for : 'para' OPEN_PAREN attributionl {
+    var initialization = statements.get(statements.size() - 1);
+    statements.remove(statements.size() - 1);
+} END_OF_LINE expression {
+    var condition = stack.pop();
+} END_OF_LINE attributionl {
+    var increment = statements.get(statements.size() - 1);
+    statements.remove(statements.size() - 1);
+
+    var body = new ArrayList<StatementNode>();
+} CLOSE_PAREN OPEN_CURLY (statement {
+    var lastStatement = statements.get(statements.size() - 1);
+    statements.remove(statements.size() - 1);
+
+    body.add(lastStatement);
+})+ CLOSE_CURLY {
+    var forStatement = new ForStatementNode(initialization, condition, increment, body);
+    addStatement(forStatement);
+};
+
+attribution : attributionl END_OF_LINE;
+
+attributionl : IDENTIFIER {
     var identifierString = _input.LT(-1).getText();
     var identifier = new IdentifierNode(identifierString);
 
     if (!symbols.containsKey(identifier.getName())) {
-        throw new UndeclaredVariableException(identifier.getName());
+       throw new UndeclaredVariableException(identifier.getName());
     }
 
     var symbol = symbols.get(identifier.getName());
     var symbolType = symbol.getType();
-} '=' expression {
+    } '=' expression {
     var expression = stack.pop();
 
     if (symbolType != expression.getType()) {
-        throw new AssignmentTypeMismatchException(symbolType, expression.getType());
+       throw new AssignmentTypeMismatchException(symbolType, expression.getType());
     }
 
     var assignment = new AssignmentStatementNode(identifier.getName(), expression);
     symbol.setInitialized();
 
     addStatement(assignment);
-} END_OF_LINE;
+};
 
 print : 'escreva' OPEN_PAREN expression CLOSE_PAREN END_OF_LINE {
     var printStatement = new PrintStatementNode(stack.pop());

@@ -2,25 +2,26 @@ package io.compiler.core.ast.statements;
 
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
+import io.compiler.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
 
 import java.util.List;
 
 public class ForStatementNode extends StatementNode {
-    private final AstNode initialization;
+    private final StatementNode initialization;
     private final AstNode condition;
-    private final AstNode increment;
-    private final List<AstNode> body;
+    private final StatementNode increment;
+    private final List<StatementNode> body;
 
-    public ForStatementNode(AstNode initialization, AstNode condition, AstNode increment, List<AstNode> body) {
+    public ForStatementNode(StatementNode initialization, AstNode condition, StatementNode increment, List<StatementNode> body) {
         this.initialization = initialization;
         this.condition = condition;
         this.increment = increment;
         this.body = body;
     }
 
-    public AstNode getInitialization() {
+    public StatementNode getInitialization() {
         return initialization;
     }
 
@@ -28,11 +29,11 @@ public class ForStatementNode extends StatementNode {
         return condition;
     }
 
-    public AstNode getIncrement() {
+    public StatementNode getIncrement() {
         return increment;
     }
 
-    public List<AstNode> getBody() {
+    public List<StatementNode> getBody() {
         return body;
     }
 
@@ -40,10 +41,11 @@ public class ForStatementNode extends StatementNode {
     public String generateCTarget() {
         StringBuilder forStatement = new StringBuilder("for (");
         forStatement.append(initialization.generateCTarget());
-        forStatement.append(";");
         forStatement.append(condition.generateCTarget());
         forStatement.append(";");
         forStatement.append(increment.generateCTarget());
+        forStatement.deleteCharAt(forStatement.length() - 1);
+        forStatement.deleteCharAt(forStatement.length() - 1);
         forStatement.append(") {\n");
 
         for (AstNode child : body) {
@@ -58,10 +60,11 @@ public class ForStatementNode extends StatementNode {
     public String generateJavaTarget() {
         StringBuilder forStatement = new StringBuilder("for (");
         forStatement.append(initialization.generateJavaTarget());
-        forStatement.append(";");
         forStatement.append(condition.generateJavaTarget());
         forStatement.append(";");
         forStatement.append(increment.generateJavaTarget());
+        forStatement.deleteCharAt(forStatement.length() - 1);
+        forStatement.deleteCharAt(forStatement.length() - 1);
         forStatement.append(") {\n");
 
         for (AstNode child : body) {
@@ -74,6 +77,16 @@ public class ForStatementNode extends StatementNode {
 
     @Override
     public Value interpret(Interpreter interpreter) throws Exception {
-        throw new Exception("Not implemented");
+        this.initialization.interpret(interpreter);
+
+        while (this.condition.interpret(interpreter).asBoolean()) {
+            for (StatementNode statement : this.body) {
+                statement.interpret(interpreter);
+            }
+
+            this.increment.interpret(interpreter);
+        }
+
+        return new Value(Type.Void, null);
     }
 }

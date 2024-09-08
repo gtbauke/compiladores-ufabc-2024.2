@@ -61,6 +61,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 */
 	void exitStatement(IsiLangParser.StatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#for}.
+	 * @param ctx the parse tree
+	 */
+	void enterFor(IsiLangParser.ForContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#for}.
+	 * @param ctx the parse tree
+	 */
+	void exitFor(IsiLangParser.ForContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#attribution}.
 	 * @param ctx the parse tree
 	 */
@@ -70,6 +80,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAttribution(IsiLangParser.AttributionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#attributionl}.
+	 * @param ctx the parse tree
+	 */
+	void enterAttributionl(IsiLangParser.AttributionlContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#attributionl}.
+	 * @param ctx the parse tree
+	 */
+	void exitAttributionl(IsiLangParser.AttributionlContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#print}.
 	 * @param ctx the parse tree
