@@ -8,10 +8,10 @@ import java.util.List;
 
 public class IfStatementNode extends StatementNode {
     private final AstNode condition;
-    private final List<AstNode> thenBranch;
-    private final List<AstNode> elseBranch;
+    private final List<StatementNode> thenBranch;
+    private final List<StatementNode> elseBranch;
 
-    public IfStatementNode(AstNode condition, List<AstNode> thenBranch, List<AstNode> elseBranch) {
+    public IfStatementNode(AstNode condition, List<StatementNode> thenBranch, List<StatementNode> elseBranch) {
         this.condition = condition;
         this.thenBranch = thenBranch;
         this.elseBranch = elseBranch;
@@ -21,11 +21,11 @@ public class IfStatementNode extends StatementNode {
         return condition;
     }
 
-    public List<AstNode> getThenBranch() {
+    public List<StatementNode> getThenBranch() {
         return thenBranch;
     }
 
-    public List<AstNode> getElseBranch() {
+    public List<StatementNode> getElseBranch() {
         return elseBranch;
     }
 

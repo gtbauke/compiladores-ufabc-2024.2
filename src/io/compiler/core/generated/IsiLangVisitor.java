@@ -6,6 +6,7 @@ package io.compiler.core.generated;
     import io.compiler.core.ast.statements.*;
     import io.compiler.core.operators.*;
     import io.compiler.core.exceptions.*;
+    import io.compiler.core.warnings.*;
     import io.compiler.types.*;
     import java.util.Stack;
     import java.util.ArrayList;
@@ -34,6 +35,12 @@ public interface IsiLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDeclaration(IsiLangParser.DeclarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(IsiLangParser.BlockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link IsiLangParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -51,6 +58,12 @@ public interface IsiLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrint(IsiLangParser.PrintContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#if}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIf(IsiLangParser.IfContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link IsiLangParser#assignment}.
 	 * @param ctx the parse tree

@@ -1,10 +1,15 @@
-program MyProgram
-declares
+programa
     string name = "Gustavo Bauke";
     int age;
-begin
+inicio
     age = 21;
 
-    print(name);
-    print(age);
-end;
+    escreva(name);
+    escreva(age);
+
+    se (age > 18) entao {
+        escreva("Maior de idade");
+    } senao {
+        escreva("Menor de idade");
+    }
+fimprog.
