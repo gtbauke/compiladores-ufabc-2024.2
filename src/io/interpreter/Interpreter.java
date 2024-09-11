@@ -1,5 +1,7 @@
 package io.interpreter;
 
+import io.compiler.core.ast.AstNode;
+import io.compiler.core.ast.BindingNode;
 import io.compiler.core.exceptions.AlreadyDeclaredVariableException;
 import io.compiler.core.exceptions.UndeclaredVariableException;
 import io.compiler.core.program.Program;
@@ -63,6 +65,20 @@ public class Interpreter {
                 return new Value(Type.Boolean, value);
             }
             default -> throw new IllegalArgumentException("Invalid type: " + target);
+        }
+    }
+
+    public void cliRun(AstNode input) {
+        try {
+            var value = input.interpret(this);
+
+            if (value.getType() != Type.Void) {
+                System.out.println(value.getValue());
+            }
+        } catch (Exception exception) {
+            System.err.println("Error: " + exception.getMessage());
+            System.out.println("Stack trace:");
+            exception.printStackTrace();
         }
     }
 

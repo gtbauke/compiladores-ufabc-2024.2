@@ -20,8 +20,10 @@ public class ArgumentParser {
         var targetIndex = args.indexOf("--target");
         var targetString = args.get(targetIndex + 1);
 
-        var inputIndex = args.indexOf("--input");
-        var inputString = args.get(inputIndex + 1);
+        var inputIndex = args.contains("--input")
+                ? args.indexOf("--input")
+                : -1;
+        var inputString = inputIndex != -1 ? args.get(inputIndex + 1) : null;
 
         var outputIndex = args.contains("--output")
                 ? args.indexOf("--output")
@@ -31,6 +33,7 @@ public class ArgumentParser {
             case "java" -> CLI.Target.Java;
             case "c" -> CLI.Target.C;
             case "interpret" -> CLI.Target.Interpret;
+            case "repl" -> CLI.Target.REPL;
             default -> throw new IllegalArgumentException("Invalid target");
         };
 

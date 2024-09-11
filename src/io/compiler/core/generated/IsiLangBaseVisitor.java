@@ -59,6 +59,13 @@ public class IsiLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitRepl_line(IsiLangParser.Repl_lineContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitDo_while(IsiLangParser.Do_whileContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
