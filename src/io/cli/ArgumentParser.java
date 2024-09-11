@@ -1,6 +1,7 @@
 package io.cli;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class ArgumentParser {
     public static class Arguments {
@@ -15,17 +16,17 @@ public class ArgumentParser {
         }
     }
 
-    public Arguments parse(String[] args) {
-        var targetIndex = Arrays.stream(args).toList().indexOf("--target");
-        var targetString = args[targetIndex + 1];
+    public Arguments parse(List<String> args) {
+        var targetIndex = args.indexOf("--target");
+        var targetString = args.get(targetIndex + 1);
 
-        var inputIndex = Arrays.stream(args).toList().indexOf("--input");
-        var inputString = args[inputIndex + 1];
+        var inputIndex = args.indexOf("--input");
+        var inputString = args.get(inputIndex + 1);
 
-        var outputIndex = Arrays.stream(args).toList().contains("--output")
-                ? Arrays.stream(args).toList().indexOf("--output")
+        var outputIndex = args.contains("--output")
+                ? args.indexOf("--output")
                 : -1;
-        var outputString = outputIndex != -1 ? args[outputIndex + 1] : null;
+        var outputString = outputIndex != -1 ? args.get(outputIndex + 1) : null;
         var target = switch (targetString) {
             case "java" -> CLI.Target.Java;
             case "c" -> CLI.Target.C;
