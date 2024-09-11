@@ -1,4 +1,4 @@
-// Generated from C:/Users/gusta/dev/compildores-2024-2-ufabc/src/IsiLang.g4 by ANTLR 4.13.1
+// Generated from C:/Users/gusta/dev/compiladores-ufabc-2024.2/src/IsiLang.g4 by ANTLR 4.13.1
 package io.compiler.core.generated;
 
     import io.compiler.core.ast.*;
@@ -330,14 +330,4 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIdentifier(IsiLangParser.IdentifierContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link IsiLangParser#unary_op}.
-	 * @param ctx the parse tree
-	 */
-	void enterUnary_op(IsiLangParser.Unary_opContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link IsiLangParser#unary_op}.
-	 * @param ctx the parse tree
-	 */
-	void exitUnary_op(IsiLangParser.Unary_opContext ctx);
 }

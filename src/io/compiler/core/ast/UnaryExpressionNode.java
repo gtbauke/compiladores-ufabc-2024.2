@@ -40,6 +40,7 @@ public class UnaryExpressionNode extends AstNode {
     public String generateCTarget() {
         return switch (operator) {
             case NOT -> "!(" + operand.generateCTarget() + ")";
+            case NEGATE -> "-" + operand.generateCTarget();
         };
     }
 
@@ -47,6 +48,7 @@ public class UnaryExpressionNode extends AstNode {
     public String generateJavaTarget() {
         return switch (operator) {
             case NOT -> "!(" + operand.generateJavaTarget() + ")";
+            case NEGATE -> "-" + operand.generateJavaTarget();
         };
     }
 
@@ -54,12 +56,22 @@ public class UnaryExpressionNode extends AstNode {
     public Value interpret(Interpreter interpreter) throws Exception {
         var operandValue = operand.interpret(interpreter);
 
-        if (Objects.requireNonNull(operator) == UnaryOperator.NOT) {
+        if (operator == UnaryOperator.NOT) {
             if (!operandValue.is(Type.Boolean)) {
                 throw new Exception("Invalid operand type for unary operator: " + operator);
             }
 
             return new Value(Type.Boolean, !(boolean) operandValue.getValue());
+        } else if (operator == UnaryOperator.NEGATE) {
+            if (!operandValue.is(Type.Integer) && !operandValue.is(Type.Float)) {
+                throw new Exception("Invalid operand type for unary operator: " + operator);
+            }
+
+            if (operandValue.is(Type.Integer)) {
+                return new Value(Type.Integer, -(int) operandValue.getValue());
+            } else {
+                return new Value(Type.Float, -(float) operandValue.getValue());
+            }
         }
 
         throw new Exception("Invalid unary operator: " + operator);

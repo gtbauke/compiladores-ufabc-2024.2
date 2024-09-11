@@ -6,7 +6,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/src/IsiLang.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="C:\Users\gusta\dev\compildores-2024-2-ufabc\src" />
+          <option name="outputDir" value="C:\Users\gusta\dev\compiladores-ufabc-2024.2\src" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="io.compiler.core.generated" />
