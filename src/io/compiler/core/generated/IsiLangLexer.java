@@ -148,6 +148,14 @@ public class IsiLangLexer extends Lexer {
 	        return program;
 	    }
 
+	    public void setSymbols(HashMap<String, Binding> symbols) {
+	        this.symbols = symbols;
+	    }
+
+	    public HashMap<String, Binding> getSymbols() {
+	        return symbols;
+	    }
+
 
 	public IsiLangLexer(CharStream input) {
 		super(input);

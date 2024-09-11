@@ -54,6 +54,14 @@ grammar IsiLang;
     public Program getProgram() {
         return program;
     }
+
+    public void setSymbols(HashMap<String, Binding> symbols) {
+        this.symbols = symbols;
+    }
+
+    public HashMap<String, Binding> getSymbols() {
+        return symbols;
+    }
 }
 
 program : 'programa' declaration 'inicio' block 'fimprog' DOT {
@@ -75,6 +83,22 @@ declaration : assignment*;
 block : statement+;
 
 statement : print | read | if | attribution | for | while | do_while;
+
+repl_line : {
+    statements.clear();
+    declarations.clear();
+} assignment {
+    var lastDeclaration = declarations.get(declarations.size() - 1);
+    declarations.remove(declarations.size() - 1);
+
+    var declarationStatement = new ExpressionStatementNode(lastDeclaration);
+    statements.add(declarationStatement);
+} | statement | expression {
+    var expression = stack.pop();
+    var expressionStatement = new ExpressionStatementNode(expression);
+
+    addStatement(expressionStatement);
+};
 
 do_while : 'faca' {
     var body = new ArrayList<StatementNode>();
