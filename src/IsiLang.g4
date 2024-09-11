@@ -289,7 +289,7 @@ comparisonl : ((OP_REL) {
 
 term : factor terml;
 
-terml : ((OP_TERM) {
+terml : (('+' | '-') {
     var operator = BinaryOperator.fromString(_input.LT(-1).getText());
     var binaryOperation = new BinaryExpressionNode(operator);
 
@@ -323,7 +323,15 @@ factorl : ((OP_FACTOR) {
     stack.push(binaryOperation);
 })*;
 
-unary : grouped_expression | boolean_literal | unary_op | NUM {
+unary : ('!' | '-') {
+    var operator = UnaryOperator.fromString(_input.LT(-1).getText());
+    var unaryOperation = new UnaryExpressionNode(operator);
+} (expression {
+    var expression = stack.pop();
+
+    unaryOperation.setOperand(expression);
+    stack.push(unaryOperation);
+}) | grouped_expression | boolean_literal | NUM {
     if (_input.LT(-1).getText().contains(".")) {
         var floatLiteral = new FloatLiteralNode(Float.parseFloat(_input.LT(-1).getText()));
         stack.push(floatLiteral);
@@ -362,21 +370,13 @@ identifier : IDENTIFIER {
     stack.push(identifier);
 };
 
-unary_op : OP_NOT {
-    var operator = UnaryOperator.fromString(_input.LT(-1).getText());
-    var unaryOperation = new UnaryExpressionNode(operator);
-} (boolean_literal | identifier {
-    unaryOperation.setOperand(stack.pop());
-    stack.push(unaryOperation);
-});
-
 END_OF_LINE : ';';
 
 TRUE : 'verdadeiro';
 FALSE : 'falso';
 
 IDENTIFIER : [a-zA-Z_]([a-zA-Z_0-9])*;
-NUM : ('-')?[0-9]+('.'[0-9]+)?;
+NUM : [0-9]+('.'[0-9]+)?;
 STRING : '"' ~[\r\n"]* '"';
 
 OP_OR : '||';
@@ -385,7 +385,6 @@ OP_COMP : '==' | '!=';
 OP_REL : '<' | '>' | '<=' | '>=';
 OP_TERM : '+' | '-';
 OP_FACTOR : '*' | '/';
-OP_NOT : '!';
 
 DOT : '.';
 

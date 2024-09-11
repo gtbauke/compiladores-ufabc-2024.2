@@ -1,8 +1,6 @@
 programa
-    int i = 0;
+    boolean i;
 inicio
-    faca {
-        i = i + 1;
-        escreva(i);
-    } enquanto (i < 10);
+    i = !verdadeiro;
+    escreva(i);
 fimprog.

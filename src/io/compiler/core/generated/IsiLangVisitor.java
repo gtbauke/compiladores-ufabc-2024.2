@@ -1,4 +1,4 @@
-// Generated from C:/Users/gusta/dev/compildores-2024-2-ufabc/src/IsiLang.g4 by ANTLR 4.13.1
+// Generated from C:/Users/gusta/dev/compiladores-ufabc-2024.2/src/IsiLang.g4 by ANTLR 4.13.1
 package io.compiler.core.generated;
 
     import io.compiler.core.ast.*;
@@ -209,10 +209,4 @@ public interface IsiLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIdentifier(IsiLangParser.IdentifierContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link IsiLangParser#unary_op}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitUnary_op(IsiLangParser.Unary_opContext ctx);
 }
