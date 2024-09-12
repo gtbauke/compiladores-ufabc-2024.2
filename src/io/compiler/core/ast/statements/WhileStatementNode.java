@@ -2,7 +2,6 @@ package io.compiler.core.ast.statements;
 
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
-import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
 import io.interpreter.exceptions.IsiLangRuntimeException;
@@ -27,15 +26,15 @@ public class WhileStatementNode extends StatementNode {
     }
 
     @Override
-    public String generateCTarget() {
+    public String generateCTarget(int indent) {
         StringBuilder builder = new StringBuilder();
 
         builder.append("while (");
-        builder.append(condition.generateCTarget());
+        builder.append(condition.generateCTarget(0));
         builder.append(") {\n");
 
         for (AstNode node : body) {
-            builder.append(node.generateCTarget());
+            builder.append(node.generateCTarget(0));
         }
 
         builder.append("}\n");
@@ -44,15 +43,15 @@ public class WhileStatementNode extends StatementNode {
     }
 
     @Override
-    public String generateJavaTarget() {
+    public String generateJavaTarget(int indent) {
         StringBuilder builder = new StringBuilder();
 
         builder.append("while (");
-        builder.append(condition.generateJavaTarget());
+        builder.append(condition.generateJavaTarget(0));
         builder.append(") {\n");
 
         for (AstNode node : body) {
-            builder.append(node.generateJavaTarget());
+            builder.append(node.generateJavaTarget(0));
         }
 
         builder.append("}\n");

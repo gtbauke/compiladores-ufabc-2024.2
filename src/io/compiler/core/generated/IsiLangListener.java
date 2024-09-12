@@ -303,6 +303,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 */
 	void exitUnary(IsiLangParser.UnaryContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#unary_op_expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnary_op_expression(IsiLangParser.Unary_op_expressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#unary_op_expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnary_op_expression(IsiLangParser.Unary_op_expressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#grouped_expression}.
 	 * @param ctx the parse tree
 	 */
@@ -322,6 +332,26 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBoolean_literal(IsiLangParser.Boolean_literalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#string_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterString_literal(IsiLangParser.String_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#string_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitString_literal(IsiLangParser.String_literalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#numeric_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumeric_literal(IsiLangParser.Numeric_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#numeric_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumeric_literal(IsiLangParser.Numeric_literalContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#identifier}.
 	 * @param ctx the parse tree

@@ -83,11 +83,11 @@ public class Interpreter {
 
     public void run() {
         try {
-            for (var declaration : program.getDeclarations()) {
+            for (var declaration : program.declarations()) {
                 declaration.interpret(this);
             }
 
-            for (var statement : program.getStatements()) {
+            for (var statement : program.statements()) {
                 statement.interpret(this);
             }
 

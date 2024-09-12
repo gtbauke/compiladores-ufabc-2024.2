@@ -9,7 +9,7 @@ import java.io.FileWriter;
 public class CGenerator implements IGenerator {
     @Override
     public String generate(Program program) {
-        return program.generateCTarget();
+        return program.generateCTarget(0);
     }
 
     @Override

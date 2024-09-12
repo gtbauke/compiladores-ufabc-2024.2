@@ -18,13 +18,13 @@ public class ExpressionStatementNode extends StatementNode {
     }
 
     @Override
-    public String generateCTarget() {
-        return expression.generateCTarget() + ";";
+    public String generateCTarget(int indent) {
+        return expression.generateCTarget(0) + ";";
     }
 
     @Override
-    public String generateJavaTarget() {
-        return "var _ = " + expression.generateJavaTarget() + ";";
+    public String generateJavaTarget(int indent) {
+        return "var _ = " + expression.generateJavaTarget(0) + ";";
     }
 
     @Override

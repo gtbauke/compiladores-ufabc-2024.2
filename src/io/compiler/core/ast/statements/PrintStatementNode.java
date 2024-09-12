@@ -3,7 +3,6 @@ package io.compiler.core.ast.statements;
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
 import io.compiler.targets.c.StringFormatSpecifierUtil;
-import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
 import io.interpreter.exceptions.IsiLangRuntimeException;
@@ -20,19 +19,19 @@ public class PrintStatementNode extends StatementNode {
     }
 
     @Override
-    public String generateCTarget() {
+    public String generateCTarget(int indent) {
         var formatSpecifier = StringFormatSpecifierUtil.getTypeSpecifierFor(value.getType());
 
-        return "printf(\"" +
+        return "    ".repeat(indent) + "printf(\"" +
                 formatSpecifier +
                 "\\n\", " +
-                value.generateCTarget() +
+                value.generateCTarget(0) +
                 ");\n";
     }
 
     @Override
-    public String generateJavaTarget() {
-        return "System.out.println(" + value.generateJavaTarget() + ");\n";
+    public String generateJavaTarget(int indent) {
+        return "    ".repeat(indent) + "System.out.println(" + value.generateJavaTarget(0) + ");\n";
     }
 
     @Override

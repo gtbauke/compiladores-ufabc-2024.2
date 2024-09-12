@@ -2,7 +2,6 @@ package io.compiler.core.ast.statements;
 
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
-import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
 import io.interpreter.exceptions.IsiLangRuntimeException;
@@ -27,30 +26,34 @@ public class DoWhileStatementNode extends StatementNode {
     }
 
     @Override
-    public String generateCTarget() {
+    public String generateCTarget(int indent) {
         var builder = new StringBuilder();
 
         builder.append("do {\n");
+
         for (var statement : body) {
-            builder.append(statement.generateCTarget());
+            builder.append("    ").append(statement.generateCTarget(0));
         }
+
         builder.append("} while (");
-        builder.append(condition.generateCTarget());
+        builder.append(condition.generateCTarget(0));
         builder.append(");\n");
 
         return builder.toString();
     }
 
     @Override
-    public String generateJavaTarget() {
+    public String generateJavaTarget(int indent) {
         var builder = new StringBuilder();
 
         builder.append("do {\n");
+
         for (var statement : body) {
-            builder.append(statement.generateJavaTarget());
+            builder.append("    ").append(statement.generateJavaTarget(0));
         }
+
         builder.append("} while (");
-        builder.append(condition.generateJavaTarget());
+        builder.append(condition.generateJavaTarget(0));
         builder.append(");\n");
 
         return builder.toString();

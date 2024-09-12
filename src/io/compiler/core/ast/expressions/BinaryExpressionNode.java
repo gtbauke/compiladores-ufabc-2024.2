@@ -1,6 +1,5 @@
 package io.compiler.core.ast.expressions;
 
-import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.operators.BinaryOperator;
 import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
@@ -54,40 +53,40 @@ public class BinaryExpressionNode extends ExpressionAstNode {
     }
 
     @Override
-    public String generateCTarget() {
+    public String generateCTarget(int indent) {
         return switch (operator) {
-            case Addition -> left.generateCTarget() + " + " + right.generateCTarget();
-            case Subtraction -> left.generateCTarget() + " - " + right.generateCTarget();
-            case Multiplication -> left.generateCTarget() + " * " + right.generateCTarget();
-            case Division -> left.generateCTarget() + " / " + right.generateCTarget();
-            case Modulo -> left.generateCTarget() + " % " + right.generateCTarget();
-            case LessThan -> left.generateCTarget() + " < " + right.generateCTarget();
-            case LessThanOrEqual -> left.generateCTarget() + " <= " + right.generateCTarget();
-            case GreaterThan -> left.generateCTarget() + " > " + right.generateCTarget();
-            case GreaterThanOrEqual -> left.generateCTarget() + " >= " + right.generateCTarget();
-            case Equals -> left.generateCTarget() + " == " + right.generateCTarget();
-            case NotEquals -> left.generateCTarget() + " != " + right.generateCTarget();
-            case And -> left.generateCTarget() + " && " + right.generateCTarget();
-            case Or -> left.generateCTarget() + " || " + right.generateCTarget();
+            case Addition -> left.generateCTarget(0) + " + " + right.generateCTarget(0);
+            case Subtraction -> left.generateCTarget(0) + " - " + right.generateCTarget(0);
+            case Multiplication -> left.generateCTarget(0) + " * " + right.generateCTarget(0);
+            case Division -> left.generateCTarget(0) + " / " + right.generateCTarget(0);
+            case Modulo -> left.generateCTarget(0) + " % " + right.generateCTarget(0);
+            case LessThan -> left.generateCTarget(0) + " < " + right.generateCTarget(0);
+            case LessThanOrEqual -> left.generateCTarget(0) + " <= " + right.generateCTarget(0);
+            case GreaterThan -> left.generateCTarget(0) + " > " + right.generateCTarget(0);
+            case GreaterThanOrEqual -> left.generateCTarget(0) + " >= " + right.generateCTarget(0);
+            case Equals -> left.generateCTarget(0) + " == " + right.generateCTarget(0);
+            case NotEquals -> left.generateCTarget(0) + " != " + right.generateCTarget(0);
+            case And -> left.generateCTarget(0) + " && " + right.generateCTarget(0);
+            case Or -> left.generateCTarget(0) + " || " + right.generateCTarget(0);
         };
     }
 
     @Override
-    public String generateJavaTarget() {
+    public String generateJavaTarget(int indent) {
         return switch (operator) {
-            case Addition -> left.generateJavaTarget() + " + " + right.generateJavaTarget();
-            case Subtraction -> left.generateJavaTarget() + " - " + right.generateJavaTarget();
-            case Multiplication -> left.generateJavaTarget() + " * " + right.generateJavaTarget();
-            case Division -> left.generateJavaTarget() + " / " + right.generateJavaTarget();
-            case Modulo -> left.generateJavaTarget() + " % " + right.generateJavaTarget();
-            case LessThan -> left.generateJavaTarget() + " < " + right.generateJavaTarget();
-            case LessThanOrEqual -> left.generateJavaTarget() + " <= " + right.generateJavaTarget();
-            case GreaterThan -> left.generateJavaTarget() + " > " + right.generateJavaTarget();
-            case GreaterThanOrEqual -> left.generateJavaTarget() + " >= " + right.generateJavaTarget();
-            case Equals -> left.generateJavaTarget() + " == " + right.generateJavaTarget();
-            case NotEquals -> left.generateJavaTarget() + " != " + right.generateJavaTarget();
-            case And -> left.generateJavaTarget() + " && " + right.generateJavaTarget();
-            case Or -> left.generateJavaTarget() + " || " + right.generateJavaTarget();
+            case Addition -> left.generateJavaTarget(0) + " + " + right.generateJavaTarget(0);
+            case Subtraction -> left.generateJavaTarget(0) + " - " + right.generateJavaTarget(0);
+            case Multiplication -> left.generateJavaTarget(0) + " * " + right.generateJavaTarget(0);
+            case Division -> left.generateJavaTarget(0) + " / " + right.generateJavaTarget(0);
+            case Modulo -> left.generateJavaTarget(0) + " % " + right.generateJavaTarget(0);
+            case LessThan -> left.generateJavaTarget(0) + " < " + right.generateJavaTarget(0);
+            case LessThanOrEqual -> left.generateJavaTarget(0) + " <= " + right.generateJavaTarget(0);
+            case GreaterThan -> left.generateJavaTarget(0) + " > " + right.generateJavaTarget(0);
+            case GreaterThanOrEqual -> left.generateJavaTarget(0) + " >= " + right.generateJavaTarget(0);
+            case Equals -> left.generateJavaTarget(0) + " == " + right.generateJavaTarget(0);
+            case NotEquals -> left.generateJavaTarget(0) + " != " + right.generateJavaTarget(0);
+            case And -> left.generateJavaTarget(0) + " && " + right.generateJavaTarget(0);
+            case Or -> left.generateJavaTarget(0) + " || " + right.generateJavaTarget(0);
         };
     }
 

@@ -1,6 +1,7 @@
 programa
-    boolean i;
+    int i = 0;
 inicio
-    i = !verdadeiro;
-    escreva(i);
+    para (i = 0; i < 10; i = i + 1) {
+        escreva(i);
+    }
 fimprog.
