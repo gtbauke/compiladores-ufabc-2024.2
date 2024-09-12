@@ -1,4 +1,4 @@
-package io.compiler.core.warnings;
+package io.compiler.core.messages.warnings;
 
 public class UnusedVariableWarning extends Warning {
     public UnusedVariableWarning(String identifier) {
