@@ -23,6 +23,9 @@ grammar IsiLang;
     private Stack<ExpressionAstNode> stack = new Stack<ExpressionAstNode>();
     private AstNode root = null;
 
+    private ArrayList<StatementNode> statements = new ArrayList<StatementNode>();
+    private ArrayList<BindingNode> declarations = new ArrayList<BindingNode>();
+
     public AstNode getRoot(){
         if (root == null) {
             root = stack.pop();
@@ -30,9 +33,6 @@ grammar IsiLang;
 
         return root;
     }
-
-    private ArrayList<StatementNode> statements = new ArrayList<StatementNode>();
-    private ArrayList<BindingNode> declarations = new ArrayList<BindingNode>();
 
     public ArrayList<StatementNode> getStatements() {
         return statements;
@@ -291,7 +291,7 @@ comparisonl : ((OP_REL) {
 
 term : factor terml;
 
-terml : (('+' | '-') {
+terml : ((OP_TERM) {
     var operator = BinaryOperator.fromString(_input.LT(-1).getText());
     var binaryOperation = new BinaryExpressionNode(operator);
 
@@ -325,7 +325,9 @@ factorl : ((OP_FACTOR) {
     stack.push(binaryOperation);
 })*;
 
-unary : ('!' | '-') {
+unary : unary_op_expression | grouped_expression | boolean_literal | numeric_literal | identifier | string_literal;
+
+unary_op_expression : ('!' | '-') {
     var operator = UnaryOperator.fromString(_input.LT(-1).getText());
     var unaryOperation = new UnaryExpressionNode(operator);
 } (expression {
@@ -333,24 +335,33 @@ unary : ('!' | '-') {
 
     unaryOperation.setOperand(expression);
     stack.push(unaryOperation);
-}) | grouped_expression | boolean_literal | NUM {
-    if (_input.LT(-1).getText().contains(".")) {
-        var floatLiteral = new FloatLiteralNode(Float.parseFloat(_input.LT(-1).getText()));
-        stack.push(floatLiteral);
-    } else {
-        var intLiteral = new IntegerLiteralNode(Integer.parseInt(_input.LT(-1).getText()));
-        stack.push(intLiteral);
-    }
-} | identifier | STRING {
-    var stringLiteral = new StringLiteralNode(_input.LT(-1).getText());
-    stack.push(stringLiteral);
-};
+});
 
-grouped_expression : OPEN_PAREN expression CLOSE_PAREN;
+grouped_expression : OPEN_PAREN expression CLOSE_PAREN {
+    var groupedExpression = stack.pop();
+    var group = new GroupedExpressionNode(groupedExpression);
+
+    stack.push(group);
+};
 
 boolean_literal : (TRUE | FALSE) {
     var booleanLiteral = new BooleanLiteralNode(_input.LT(-1).getText().equals("verdadeiro"));
     stack.push(booleanLiteral);
+};
+
+string_literal : STRING {
+    var stringLiteral = new StringLiteralNode(_input.LT(-1).getText());
+    stack.push(stringLiteral);
+};
+
+numeric_literal : NUM {
+    if (_input.LT(-1).getText().contains(".")) {
+      var floatLiteral = new FloatLiteralNode(Float.parseFloat(_input.LT(-1).getText()));
+      stack.push(floatLiteral);
+    } else {
+      var intLiteral = new IntegerLiteralNode(Integer.parseInt(_input.LT(-1).getText()));
+      stack.push(intLiteral);
+    }
 };
 
 identifier : IDENTIFIER {
