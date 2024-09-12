@@ -104,11 +104,11 @@ public interface IsiLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIf(IsiLangParser.IfContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link IsiLangParser#assignment}.
+	 * Visit a parse tree produced by {@link IsiLangParser#variable_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAssignment(IsiLangParser.AssignmentContext ctx);
+	T visitVariable_declaration(IsiLangParser.Variable_declarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link IsiLangParser#expression}.
 	 * @param ctx the parse tree

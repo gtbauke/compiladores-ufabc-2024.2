@@ -1,5 +1,5 @@
 programa
-    int i = 0;
+    int i, j, k = 0;
 inicio
     para (i = 0; i < 10; i = i + 1) {
         escreva(i);

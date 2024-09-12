@@ -81,7 +81,7 @@ program : 'programa' declaration 'inicio' block 'fimprog' DOT {
     this.program = program_;
 };
 
-declaration : assignment*;
+declaration : variable_declaration*;
 block : statement+;
 
 statement : print | read | if | attribution | for | while | do_while;
@@ -89,7 +89,7 @@ statement : print | read | if | attribution | for | while | do_while;
 repl_line : {
     statements.clear();
     declarations.clear();
-} assignment {
+} variable_declaration {
     var lastDeclaration = declarations.get(declarations.size() - 1);
     declarations.remove(declarations.size() - 1);
 
@@ -228,29 +228,40 @@ if : 'se' OPEN_PAREN expression {
     hasElseBranch = false;
 };
 
-assignment : ('int' | 'float' | 'string' | 'boolean') {
+variable_declaration : TYPE_IDENTIFIER {
     var typeString = _input.LT(-1).getText();
     var type = Type.fromString(typeString);
 } IDENTIFIER {
     var identifierString = _input.LT(-1).getText();
+    var identifiers = new ArrayList<IdentifierNode>();
     var identifier = new IdentifierNode(identifierString);
+
+    identifiers.add(identifier);
 
     if (symbols.containsKey(identifier.getName())) {
         throw new AlreadyDeclaredVariableException(identifier.getName());
     }
-} ('=' {
+} (',' IDENTIFIER {
+    identifierString = _input.LT(-1).getText();
+    identifier = new IdentifierNode(identifierString);
+
+    identifiers.add(identifier);
+})* ('=' {
     isInitializingVariable = true;
 } expression)? {
     var initializer = isInitializingVariable ? stack.pop() : null;
 
-    if (isInitializingVariable && initializer.getType() != type) {
-        throw new DeclarationTypeMismatchException(identifier.getName(), type, initializer.getType());
+    for (var id : identifiers) {
+        if (isInitializingVariable && initializer.getType() != type) {
+            throw new DeclarationTypeMismatchException(id.getName(), type, initializer.getType());
+        }
+
+        var binding = new DeclarationNode(id.getName(), type, initializer);
+        addDeclaration(binding);
+
+        symbols.put(id.getName(), binding.asBinding());
     }
 
-    var binding = new DeclarationNode(identifier.getName(), type, initializer);
-    addDeclaration(binding);
-
-    symbols.put(identifier.getName(), binding.asBinding());
     isInitializingVariable = false;
 } END_OF_LINE;
 
@@ -402,6 +413,7 @@ END_OF_LINE : ';';
 TRUE : 'verdadeiro';
 FALSE : 'falso';
 
+TYPE_IDENTIFIER : 'int' | 'float' | 'string' | 'boolean';
 IDENTIFIER : [a-zA-Z_]([a-zA-Z_0-9])*;
 NUM : [0-9]+('.'[0-9]+)?;
 STRING : '"' ~[\r\n"]* '"';

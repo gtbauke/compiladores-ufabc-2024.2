@@ -124,7 +124,7 @@ public class IsiLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAssignment(IsiLangParser.AssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVariable_declaration(IsiLangParser.Variable_declarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

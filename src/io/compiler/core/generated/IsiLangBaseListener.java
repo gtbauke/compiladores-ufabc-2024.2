@@ -188,13 +188,13 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssignment(IsiLangParser.AssignmentContext ctx) { }
+	@Override public void enterVariable_declaration(IsiLangParser.Variable_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssignment(IsiLangParser.AssignmentContext ctx) { }
+	@Override public void exitVariable_declaration(IsiLangParser.Variable_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
