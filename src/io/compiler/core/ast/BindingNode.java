@@ -73,6 +73,6 @@ public class BindingNode extends AstNode {
             : initializer.interpret(interpreter);
 
         interpreter.addValue(identifier, value);
-        return new Value(Type.Void, null);
+        return Value.VOID;
     }
 }

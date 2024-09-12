@@ -88,6 +88,6 @@ public class ForStatementNode extends StatementNode {
             this.increment.interpret(interpreter);
         }
 
-        return new Value(Type.Void, null);
+        return Value.VOID;
     }
 }

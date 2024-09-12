@@ -40,6 +40,6 @@ public class PrintStatementNode extends StatementNode {
         var value = this.value.interpret(interpreter);
         System.out.println(value);
 
-        return new Value(Type.Void, null);
+        return Value.VOID;
     }
 }
