@@ -1,11 +1,10 @@
 package io.interpreter;
 
 import io.compiler.core.ast.AstNode;
-import io.compiler.core.ast.BindingNode;
 import io.compiler.core.exceptions.AlreadyDeclaredVariableException;
 import io.compiler.core.exceptions.UndeclaredVariableException;
 import io.compiler.core.program.Program;
-import io.compiler.types.Type;
+import io.compiler.core.symbols.types.Type;
 
 import java.util.HashMap;
 import java.util.Scanner;
