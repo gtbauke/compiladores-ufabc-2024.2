@@ -18,6 +18,11 @@ public class IdentifierNode extends ExpressionAstNode {
     }
 
     @Override
+    public boolean isIdentifier() {
+        return true;
+    }
+
+    @Override
     public String generateCTarget(int indent) {
         return name;
     }

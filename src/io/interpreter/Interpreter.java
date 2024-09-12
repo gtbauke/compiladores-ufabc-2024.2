@@ -15,6 +15,9 @@ public class Interpreter {
 
     private final Scanner scanner;
 
+    private boolean shouldContinue;
+    private boolean shouldBreak;
+
     public Interpreter(Program program) {
         this.program = program;
         this.values = new HashMap<>();
@@ -71,14 +74,30 @@ public class Interpreter {
         try {
             var value = input.interpret(this);
 
-            if (value.getType() != Type.Void) {
-                System.out.println(value.getValue());
+            if (value.type() != Type.Void) {
+                System.out.println(value.value());
             }
         } catch (Exception exception) {
             System.err.println("Error: " + exception.getMessage());
             System.out.println("Stack trace:");
             exception.printStackTrace();
         }
+    }
+
+    public void setShouldContinue(boolean shouldContinue) {
+        this.shouldContinue = shouldContinue;
+    }
+
+    public boolean shouldContinue() {
+        return shouldContinue;
+    }
+
+    public void setShouldBreak(boolean shouldBreak) {
+        this.shouldBreak = shouldBreak;
+    }
+
+    public boolean shouldBreak() {
+        return shouldBreak;
     }
 
     public void run() {

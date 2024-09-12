@@ -60,15 +60,15 @@ public class UnaryExpressionNode extends ExpressionAstNode {
 
         if (operator == UnaryOperator.NOT) {
             if (!operandValue.is(Type.Boolean)) {
-                throw new ExpectedValueOfTypeException(Type.Boolean, operandValue.getType());
+                throw new ExpectedValueOfTypeException(Type.Boolean, operandValue.type());
             }
 
-            return new Value(Type.Boolean, !(boolean) operandValue.getValue());
+            return new Value(Type.Boolean, !(boolean) operandValue.value());
         } else if (operator == UnaryOperator.NEGATE) {
-            return switch (operandValue.getType()) {
-                case Integer -> new Value(Type.Integer, -(int) operandValue.getValue());
-                case Float -> new Value(Type.Float, -(float) operandValue.getValue());
-                default -> throw new ExpectedValueOfTypeException(Type.NUMERIC, operandValue.getType());
+            return switch (operandValue.type()) {
+                case Integer -> new Value(Type.Integer, -(int) operandValue.value());
+                case Float -> new Value(Type.Float, -(float) operandValue.value());
+                default -> throw new ExpectedValueOfTypeException(Type.NUMERIC, operandValue.type());
             };
         }
 

@@ -39,6 +39,7 @@ public enum Type implements JavaTargetable, CTargetable {
             case Float -> "float";
             case String -> "char*";
             case Void -> "void";
+            default -> throw new IllegalArgumentException("Invalid value: " + this);
         };
     }
 
@@ -50,6 +51,7 @@ public enum Type implements JavaTargetable, CTargetable {
             case String -> "String";
             case Void -> "void";
             case Boolean -> "boolean";
+            default -> throw new IllegalArgumentException("Invalid value: " + this);
         };
     }
 }

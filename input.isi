@@ -1,7 +1,15 @@
 programa
-    int i, j, k = 0;
+    int i = 0;
+    int limite = 10;
 inicio
-    para (i = 0; i < 10; i = i + 1) {
+    escreva("Digite um número: ");
+    leia(limite);
+
+    para (i = 0; i < limite; i = i + 1) {
+        se (i % 2 == 0) entao {
+            continue;
+        }
+
         escreva(i);
     }
 fimprog.

@@ -2,6 +2,7 @@ package io.compiler.core.ast.statements;
 
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
+import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
 import io.interpreter.exceptions.IsiLangRuntimeException;
@@ -15,14 +16,6 @@ public class DoWhileStatementNode extends StatementNode {
     public DoWhileStatementNode(List<StatementNode> body, AstNode condition) {
         this.body = body;
         this.condition = condition;
-    }
-
-    public List<StatementNode> getBody() {
-        return body;
-    }
-
-    public AstNode getCondition() {
-        return condition;
     }
 
     @Override
@@ -64,6 +57,16 @@ public class DoWhileStatementNode extends StatementNode {
         do {
             for (var statement : body) {
                 statement.interpret(interpreter);
+
+                if (interpreter.shouldBreak()) {
+                    interpreter.setShouldBreak(false);
+                    return Value.VOID;
+                }
+
+                if (interpreter.shouldContinue()) {
+                    interpreter.setShouldContinue(false);
+                    break;
+                }
             }
         } while (condition.interpret(interpreter).asBoolean());
 

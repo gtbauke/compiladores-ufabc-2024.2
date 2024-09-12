@@ -3,6 +3,7 @@ package io.compiler.core.ast.statements;
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
 import io.compiler.core.ast.expressions.ExpressionAstNode;
+import io.compiler.core.symbols.types.Type;
 import io.compiler.targets.c.CTargetable;
 import io.compiler.targets.java.JavaTargetable;
 import io.interpreter.Interpretable;
@@ -11,6 +12,7 @@ import io.interpreter.Value;
 import io.interpreter.exceptions.IsiLangRuntimeException;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ForStatementNode extends StatementNode {
     public record Initializer(String identifier,
@@ -29,7 +31,7 @@ public class ForStatementNode extends StatementNode {
         @Override
         public Value interpret(Interpreter interpreter) throws IsiLangRuntimeException {
             var value = this.value.interpret(interpreter);
-            interpreter.addValue(identifier, value);
+            interpreter.updateValue(identifier, value);
 
             return value;
         }
@@ -115,6 +117,16 @@ public class ForStatementNode extends StatementNode {
         while (this.condition.interpret(interpreter).asBoolean()) {
             for (StatementNode statement : this.body) {
                 statement.interpret(interpreter);
+
+                if (interpreter.shouldBreak()) {
+                    interpreter.setShouldBreak(false);
+                    return Value.VOID;
+                }
+
+                if (interpreter.shouldContinue()) {
+                    interpreter.setShouldContinue(false);
+                    break;
+                }
             }
 
             this.increment.interpret(interpreter);

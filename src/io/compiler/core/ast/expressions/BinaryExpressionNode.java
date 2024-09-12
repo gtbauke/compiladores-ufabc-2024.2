@@ -98,59 +98,59 @@ public class BinaryExpressionNode extends ExpressionAstNode {
         switch (operator) {
             case Addition: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
-                    var leftInt = (int) leftValue.getValue();
-                    var rightInt = (int) rightValue.getValue();
+                    var leftInt = (int) leftValue.value();
+                    var rightInt = (int) rightValue.value();
 
                     return new Value(Type.Integer, leftInt + rightInt);
                 }
 
                 if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
-                    var leftFloat = (float) leftValue.getValue();
-                    var rightFloat = (float) rightValue.getValue();
+                    var leftFloat = (float) leftValue.value();
+                    var rightFloat = (float) rightValue.value();
 
                     return new Value(Type.Float, leftFloat + rightFloat);
                 }
 
-                throw new OperationNotDefinedForException.Addition(leftValue.getType(), rightValue.getType());
+                throw new OperationNotDefinedForException.Addition(leftValue.type(), rightValue.type());
             }
             case Subtraction: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
-                    var leftInt = (int) leftValue.getValue();
-                    var rightInt = (int) rightValue.getValue();
+                    var leftInt = (int) leftValue.value();
+                    var rightInt = (int) rightValue.value();
 
                     return new Value(Type.Integer, leftInt - rightInt);
                 }
 
                 if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
-                    var leftFloat = (float) leftValue.getValue();
-                    var rightFloat = (float) rightValue.getValue();
+                    var leftFloat = (float) leftValue.value();
+                    var rightFloat = (float) rightValue.value();
 
                     return new Value(Type.Float, leftFloat - rightFloat);
                 }
 
-                throw new OperationNotDefinedForException.Subtraction(leftValue.getType(), rightValue.getType());
+                throw new OperationNotDefinedForException.Subtraction(leftValue.type(), rightValue.type());
             }
             case Multiplication: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
-                    var leftInt = (int) leftValue.getValue();
-                    var rightInt = (int) rightValue.getValue();
+                    var leftInt = (int) leftValue.value();
+                    var rightInt = (int) rightValue.value();
 
                     return new Value(Type.Integer, leftInt * rightInt);
                 }
 
                 if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
-                    var leftFloat = (float) leftValue.getValue();
-                    var rightFloat = (float) rightValue.getValue();
+                    var leftFloat = (float) leftValue.value();
+                    var rightFloat = (float) rightValue.value();
 
                     return new Value(Type.Float, leftFloat * rightFloat);
                 }
 
-                throw new OperationNotDefinedForException.Multiplication(leftValue.getType(), rightValue.getType());
+                throw new OperationNotDefinedForException.Multiplication(leftValue.type(), rightValue.type());
             }
             case Division: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
-                    var leftInt = (int) leftValue.getValue();
-                    var rightInt = (int) rightValue.getValue();
+                    var leftInt = (int) leftValue.value();
+                    var rightInt = (int) rightValue.value();
 
                     if (rightInt == 0) {
                         throw new DivisionByZeroException();
@@ -160,8 +160,8 @@ public class BinaryExpressionNode extends ExpressionAstNode {
                 }
 
                 if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
-                    var leftFloat = (float) leftValue.getValue();
-                    var rightFloat = (float) rightValue.getValue();
+                    var leftFloat = (float) leftValue.value();
+                    var rightFloat = (float) rightValue.value();
 
                     if (rightFloat == 0) {
                         throw new DivisionByZeroException();
@@ -170,7 +170,21 @@ public class BinaryExpressionNode extends ExpressionAstNode {
                     return new Value(Type.Float, leftFloat / rightFloat);
                 }
 
-                throw new OperationNotDefinedForException.Division(leftValue.getType(), rightValue.getType());
+                throw new OperationNotDefinedForException.Division(leftValue.type(), rightValue.type());
+            }
+            case Modulo: {
+                if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
+                    var leftInt = (int) leftValue.value();
+                    var rightInt = (int) rightValue.value();
+
+                    if (rightInt == 0) {
+                        throw new DivisionByZeroException();
+                    }
+
+                    return new Value(Type.Integer, leftInt % rightInt);
+                }
+
+                throw new OperationNotDefinedForException.Modulo(leftValue.type(), rightValue.type());
             }
             case Equals: {
                 return new Value(Type.Boolean, leftValue.equals(rightValue));
@@ -180,91 +194,91 @@ public class BinaryExpressionNode extends ExpressionAstNode {
             }
             case GreaterThan: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
-                    var leftInt = (int) leftValue.getValue();
-                    var rightInt = (int) rightValue.getValue();
+                    var leftInt = (int) leftValue.value();
+                    var rightInt = (int) rightValue.value();
 
                     return new Value(Type.Boolean, leftInt > rightInt);
                 }
 
                 if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
-                    var leftFloat = (float) leftValue.getValue();
-                    var rightFloat = (float) rightValue.getValue();
+                    var leftFloat = (float) leftValue.value();
+                    var rightFloat = (float) rightValue.value();
 
                     return new Value(Type.Boolean, leftFloat > rightFloat);
                 }
 
-                throw new OperationNotDefinedForException.GreaterThan(leftValue.getType(), rightValue.getType());
+                throw new OperationNotDefinedForException.GreaterThan(leftValue.type(), rightValue.type());
             }
             case GreaterThanOrEqual: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
-                    var leftInt = (int) leftValue.getValue();
-                    var rightInt = (int) rightValue.getValue();
+                    var leftInt = (int) leftValue.value();
+                    var rightInt = (int) rightValue.value();
 
                     return new Value(Type.Boolean, leftInt >= rightInt);
                 }
 
                 if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
-                    var leftFloat = (float) leftValue.getValue();
-                    var rightFloat = (float) rightValue.getValue();
+                    var leftFloat = (float) leftValue.value();
+                    var rightFloat = (float) rightValue.value();
 
                     return new Value(Type.Boolean, leftFloat >= rightFloat);
                 }
 
-                throw new OperationNotDefinedForException.GreaterThanOrEqual(leftValue.getType(), rightValue.getType());
+                throw new OperationNotDefinedForException.GreaterThanOrEqual(leftValue.type(), rightValue.type());
             }
             case LessThan: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
-                    var leftInt = (int) leftValue.getValue();
-                    var rightInt = (int) rightValue.getValue();
+                    var leftInt = (int) leftValue.value();
+                    var rightInt = (int) rightValue.value();
 
                     return new Value(Type.Boolean, leftInt < rightInt);
                 }
 
                 if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
-                    var leftFloat = (float) leftValue.getValue();
-                    var rightFloat = (float) rightValue.getValue();
+                    var leftFloat = (float) leftValue.value();
+                    var rightFloat = (float) rightValue.value();
 
                     return new Value(Type.Boolean, leftFloat < rightFloat);
                 }
 
-                throw new OperationNotDefinedForException.LessThan(leftValue.getType(), rightValue.getType());
+                throw new OperationNotDefinedForException.LessThan(leftValue.type(), rightValue.type());
             }
             case LessThanOrEqual: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
-                    var leftInt = (int) leftValue.getValue();
-                    var rightInt = (int) rightValue.getValue();
+                    var leftInt = (int) leftValue.value();
+                    var rightInt = (int) rightValue.value();
 
                     return new Value(Type.Boolean, leftInt <= rightInt);
                 }
 
                 if (leftValue.is(Type.Float) && rightValue.is(Type.Float)) {
-                    var leftFloat = (float) leftValue.getValue();
-                    var rightFloat = (float) rightValue.getValue();
+                    var leftFloat = (float) leftValue.value();
+                    var rightFloat = (float) rightValue.value();
 
                     return new Value(Type.Boolean, leftFloat <= rightFloat);
                 }
 
-                throw new OperationNotDefinedForException.LessThanOrEqual(leftValue.getType(), rightValue.getType());
+                throw new OperationNotDefinedForException.LessThanOrEqual(leftValue.type(), rightValue.type());
             }
             case And: {
                 if (leftValue.is(Type.Boolean) && rightValue.is(Type.Boolean)) {
-                    var leftBool = (boolean) leftValue.getValue();
-                    var rightBool = (boolean) rightValue.getValue();
+                    var leftBool = (boolean) leftValue.value();
+                    var rightBool = (boolean) rightValue.value();
 
                     return new Value(Type.Boolean, leftBool && rightBool);
                 }
 
-                throw new OperationNotDefinedForException.And(leftValue.getType(), rightValue.getType());
+                throw new OperationNotDefinedForException.And(leftValue.type(), rightValue.type());
             }
             case Or: {
                 if (leftValue.is(Type.Boolean) && rightValue.is(Type.Boolean)) {
-                    var leftBool = (boolean) leftValue.getValue();
-                    var rightBool = (boolean) rightValue.getValue();
+                    var leftBool = (boolean) leftValue.value();
+                    var rightBool = (boolean) rightValue.value();
 
                     return new Value(Type.Boolean, leftBool || rightBool);
                 }
 
-                throw new OperationNotDefinedForException.Or(leftValue.getType(), rightValue.getType());
+                throw new OperationNotDefinedForException.Or(leftValue.type(), rightValue.type());
             }
             default: throw new UnknownBinaryOperator(operator);
         }

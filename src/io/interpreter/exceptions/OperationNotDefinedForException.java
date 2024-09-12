@@ -93,10 +93,22 @@ public abstract class OperationNotDefinedForException extends IsiLangRuntimeExce
         }
     }
 
+    public static class Modulo extends OperationNotDefinedForException {
+        private static final BinarySignature[] MODULO_SIGNATURES = {
+                new BinarySignature(Type.Integer, Type.Integer),
+        };
+
+        public Modulo(Type gotLeft, Type gotRight) {
+            super(MODULO_SIGNATURES, gotLeft, gotRight, BinaryOperator.Modulo,
+                    "Modulo is not defined for types " + gotLeft + " and " + gotRight + ".\n"
+                    + "Modulo is only defined for:\n" + BinarySignature.generateMessage(MODULO_SIGNATURES)
+            );
+        }
+    }
+
     public static class LessThan extends OperationNotDefinedForException {
         private static final BinarySignature[] LESS_THAN_SIGNATURES = {
                 new BinarySignature(Type.Integer, Type.Integer),
-                new BinarySignature(Type.Float, Type.Float),
         };
 
         public LessThan(Type gotLeft, Type gotRight) {

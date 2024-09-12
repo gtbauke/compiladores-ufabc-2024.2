@@ -46,27 +46,33 @@ public class CLI {
                 var symbols = new HashMap<String, Symbol>();
 
                 while (true) {
-                    var line = scanner.nextLine();
+                    try {
+                        var line = scanner.nextLine();
 
-                    lexer = new IsiLangLexer(CharStreams.fromString(line));
-                    CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-                    parser = new IsiLangParser(tokenStream);
-                    parser.setSymbols(symbols);
+                        lexer = new IsiLangLexer(CharStreams.fromString(line));
+                        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+                        parser = new IsiLangParser(tokenStream);
+                        parser.setSymbols(symbols);
 
-                    parser.repl_line();
-                    symbols = parser.getSymbols();
+                        parser.repl_line();
+                        symbols = parser.getSymbols();
 
-                    var input = parser.getStatements().getFirst();
+                        var input = parser.getStatements().getFirst();
 
-                    if (input instanceof ExpressionStatementNode expressionStatement) {
-                        if (expressionStatement.getExpression() instanceof IdentifierNode identifierNode) {
-                            if (identifierNode.getName().equals("__exit__")) {
-                                break;
+                        if (input instanceof ExpressionStatementNode expressionStatement) {
+                            if (expressionStatement.getExpression() instanceof IdentifierNode identifierNode) {
+                                if (identifierNode.getName().equals("__exit__")) {
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    interpreter.cliRun(input);
+                        interpreter.cliRun(input);
+                    } catch (Exception exception) {
+                        System.err.println("Error: " + exception.getMessage());
+                        System.out.println("Stack trace:");
+                        exception.printStackTrace();
+                    }
                 }
 
                 scanner.close();

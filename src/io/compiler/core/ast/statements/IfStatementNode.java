@@ -90,7 +90,7 @@ public class IfStatementNode extends StatementNode {
     public Value interpret(Interpreter interpreter) throws IsiLangRuntimeException {
         var condition = this.condition.interpret(interpreter);
 
-        if (condition.is(Type.Boolean) && (boolean)condition.getValue()) {
+        if (condition.is(Type.Boolean) && (boolean)condition.value()) {
             for (var node : thenBranch) {
                 node.interpret(interpreter);
             }
