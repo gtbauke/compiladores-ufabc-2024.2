@@ -1,6 +1,6 @@
 package io.compiler.core.ast;
 
-import io.compiler.types.Type;
+import io.compiler.core.symbols.types.Type;
 
 public abstract class StatementNode extends AstNode {
     public StatementNode() {

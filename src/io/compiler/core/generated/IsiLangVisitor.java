@@ -2,13 +2,15 @@
 package io.compiler.core.generated;
 
     import io.compiler.core.ast.*;
-    import io.compiler.core.ast.literals.*;
+    import io.compiler.core.ast.expressions.*;
     import io.compiler.core.ast.statements.*;
-    import io.compiler.core.operators.*;
+    import io.compiler.core.ast.expressions.literals.*;
+    import io.compiler.core.ast.operators.*;
     import io.compiler.core.exceptions.*;
     import io.compiler.core.warnings.*;
     import io.compiler.core.program.*;
-    import io.compiler.types.*;
+    import io.compiler.core.symbols.*;
+    import io.compiler.core.symbols.types.*;
     import java.util.Stack;
     import java.util.ArrayList;
     import java.util.HashMap;

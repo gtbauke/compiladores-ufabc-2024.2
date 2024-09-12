@@ -13,7 +13,7 @@ public class CGenerator implements IGenerator {
     }
 
     @Override
-    public void writeToFile(Program program, String path) {
+    public void write(Program program, String path) {
         var cCode = generate(program);
 
         try {

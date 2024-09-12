@@ -1,17 +1,15 @@
 package io.compiler.targets.c;
 
-import io.compiler.types.Type;
+import io.compiler.core.symbols.types.Type;
 
-public class FormatSpecifier {
+public class StringFormatSpecifierUtil {
     public static final String INTEGER = "%d";
     public static final String FLOAT = "%f";
-    public static final String CHAR = "%c";
     public static final String STRING = "%s";
 
-    private FormatSpecifier() {
-    }
+    private StringFormatSpecifierUtil() {}
 
-    public static String getSpecifier(Type type) {
+    public static String getTypeSpecifierFor(Type type) {
         return switch (type) {
             case Integer, Boolean -> INTEGER;
             case Float -> FLOAT;

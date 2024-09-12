@@ -1,6 +1,6 @@
 package io.compiler.core.exceptions;
 
-import io.compiler.types.Type;
+import io.compiler.core.symbols.types.Type;
 
 public class DeclarationTypeMismatchException extends SemanticException {
     public DeclarationTypeMismatchException(String identifier, Type expected, Type received) {

@@ -1,4 +1,4 @@
-package io.compiler.core.operators;
+package io.compiler.core.ast.operators;
 
 public enum BinaryOperator {
     Addition(1),

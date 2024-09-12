@@ -4,6 +4,7 @@ import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
+import io.interpreter.exceptions.IsiLangRuntimeException;
 
 public class ExpressionStatementNode extends StatementNode {
     private final AstNode expression;
@@ -27,7 +28,7 @@ public class ExpressionStatementNode extends StatementNode {
     }
 
     @Override
-    public Value interpret(Interpreter interpreter) throws Exception {
+    public Value interpret(Interpreter interpreter) throws IsiLangRuntimeException {
         return expression.interpret(interpreter);
     }
 }

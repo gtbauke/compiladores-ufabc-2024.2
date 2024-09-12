@@ -1,13 +1,15 @@
-package io.compiler.core.ast;
+package io.compiler.core.ast.expressions;
 
-import io.compiler.core.operators.UnaryOperator;
-import io.compiler.types.Type;
+import io.compiler.core.ast.AstNode;
+import io.compiler.core.ast.operators.UnaryOperator;
+import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
+import io.interpreter.exceptions.ExpectedValueOfTypeException;
+import io.interpreter.exceptions.IsiLangRuntimeException;
+import io.interpreter.exceptions.UnknownUnaryOperatorException;
 
-import java.util.Objects;
-
-public class UnaryExpressionNode extends AstNode {
+public class UnaryExpressionNode extends ExpressionAstNode {
     private final UnaryOperator operator;
     private AstNode operand;
 
@@ -18,7 +20,7 @@ public class UnaryExpressionNode extends AstNode {
     }
 
     public UnaryExpressionNode(UnaryOperator operator, AstNode operand) {
-        super(operand.type);
+        super(operand.getType());
         this.operator = operator;
         this.operand = operand;
     }
@@ -33,7 +35,7 @@ public class UnaryExpressionNode extends AstNode {
 
     public void setOperand(AstNode operand) {
         this.operand = operand;
-        this.type = operand.type;
+        this.type = operand.getType();
     }
 
     @Override
@@ -53,27 +55,23 @@ public class UnaryExpressionNode extends AstNode {
     }
 
     @Override
-    public Value interpret(Interpreter interpreter) throws Exception {
+    public Value interpret(Interpreter interpreter) throws IsiLangRuntimeException {
         var operandValue = operand.interpret(interpreter);
 
         if (operator == UnaryOperator.NOT) {
             if (!operandValue.is(Type.Boolean)) {
-                throw new Exception("Invalid operand type for unary operator: " + operator);
+                throw new ExpectedValueOfTypeException(Type.Boolean, operandValue.getType());
             }
 
             return new Value(Type.Boolean, !(boolean) operandValue.getValue());
         } else if (operator == UnaryOperator.NEGATE) {
-            if (!operandValue.is(Type.Integer) && !operandValue.is(Type.Float)) {
-                throw new Exception("Invalid operand type for unary operator: " + operator);
-            }
-
-            if (operandValue.is(Type.Integer)) {
-                return new Value(Type.Integer, -(int) operandValue.getValue());
-            } else {
-                return new Value(Type.Float, -(float) operandValue.getValue());
-            }
+            return switch (operandValue.getType()) {
+                case Integer -> new Value(Type.Integer, -(int) operandValue.getValue());
+                case Float -> new Value(Type.Float, -(float) operandValue.getValue());
+                default -> throw new ExpectedValueOfTypeException(Type.NUMERIC, operandValue.getType());
+            };
         }
 
-        throw new Exception("Invalid unary operator: " + operator);
+        throw new UnknownUnaryOperatorException(operator);
     }
 }

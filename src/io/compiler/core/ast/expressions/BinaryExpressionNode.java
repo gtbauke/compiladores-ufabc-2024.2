@@ -1,17 +1,22 @@
-package io.compiler.core.ast;
+package io.compiler.core.ast.expressions;
 
-import io.compiler.core.operators.BinaryOperator;
-import io.compiler.types.Type;
+import io.compiler.core.ast.AstNode;
+import io.compiler.core.ast.operators.BinaryOperator;
+import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
+import io.interpreter.exceptions.DivisionByZeroException;
+import io.interpreter.exceptions.IsiLangRuntimeException;
+import io.interpreter.exceptions.OperationNotDefinedForException;
+import io.interpreter.exceptions.UnknownBinaryOperator;
 
-public class BinaryExpressionNode extends AstNode {
-    private AstNode left;
-    private AstNode right;
+public class BinaryExpressionNode extends ExpressionAstNode {
+    private ExpressionAstNode left;
+    private ExpressionAstNode right;
     private final BinaryOperator operator;
 
-    public BinaryExpressionNode(AstNode left, BinaryOperator operator, AstNode right) {
-        super(left.type);
+    public BinaryExpressionNode(ExpressionAstNode left, BinaryOperator operator, ExpressionAstNode right) {
+        super(left.getType());
         this.left = left;
         this.right = right;
         this.operator = operator;
@@ -27,20 +32,20 @@ public class BinaryExpressionNode extends AstNode {
         this.operator = operator;
     }
 
-    public AstNode getLeft() {
+    public ExpressionAstNode getLeft() {
         return left;
     }
 
-    public void setLeft(AstNode left) {
+    public void setLeft(ExpressionAstNode left) {
         this.left = left;
-        this.type = left.type;
+        this.type = left.getType();
     }
 
-    public AstNode getRight() {
+    public ExpressionAstNode getRight() {
         return right;
     }
 
-    public void setRight(AstNode right) {
+    public void setRight(ExpressionAstNode right) {
         this.right = right;
     }
 
@@ -87,7 +92,7 @@ public class BinaryExpressionNode extends AstNode {
     }
 
     @Override
-    public Value interpret(Interpreter interpreter) throws Exception {
+    public Value interpret(Interpreter interpreter) throws IsiLangRuntimeException {
         var leftValue = left.interpret(interpreter);
         var rightValue = right.interpret(interpreter);
 
@@ -107,7 +112,7 @@ public class BinaryExpressionNode extends AstNode {
                     return new Value(Type.Float, leftFloat + rightFloat);
                 }
 
-                throw new Exception("Invalid operation: Addition between " + leftValue.getType() + " and " + rightValue.getType());
+                throw new OperationNotDefinedForException.Addition(leftValue.getType(), rightValue.getType());
             }
             case Subtraction: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
@@ -124,7 +129,7 @@ public class BinaryExpressionNode extends AstNode {
                     return new Value(Type.Float, leftFloat - rightFloat);
                 }
 
-                throw new Exception("Invalid operation: Subtraction between " + leftValue.getType() + " and " + rightValue.getType());
+                throw new OperationNotDefinedForException.Subtraction(leftValue.getType(), rightValue.getType());
             }
             case Multiplication: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
@@ -141,7 +146,7 @@ public class BinaryExpressionNode extends AstNode {
                     return new Value(Type.Float, leftFloat * rightFloat);
                 }
 
-                throw new Exception("Invalid operation: Multiplication between " + leftValue.getType() + " and " + rightValue.getType());
+                throw new OperationNotDefinedForException.Multiplication(leftValue.getType(), rightValue.getType());
             }
             case Division: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
@@ -149,7 +154,7 @@ public class BinaryExpressionNode extends AstNode {
                     var rightInt = (int) rightValue.getValue();
 
                     if (rightInt == 0) {
-                        throw new Exception("Division by zero");
+                        throw new DivisionByZeroException();
                     }
 
                     return new Value(Type.Integer, leftInt / rightInt);
@@ -160,13 +165,13 @@ public class BinaryExpressionNode extends AstNode {
                     var rightFloat = (float) rightValue.getValue();
 
                     if (rightFloat == 0) {
-                        throw new Exception("Division by zero");
+                        throw new DivisionByZeroException();
                     }
 
                     return new Value(Type.Float, leftFloat / rightFloat);
                 }
 
-                throw new Exception("Invalid operation: Division between " + leftValue.getType() + " and " + rightValue.getType());
+                throw new OperationNotDefinedForException.Division(leftValue.getType(), rightValue.getType());
             }
             case Equals: {
                 return new Value(Type.Boolean, leftValue.equals(rightValue));
@@ -189,7 +194,7 @@ public class BinaryExpressionNode extends AstNode {
                     return new Value(Type.Boolean, leftFloat > rightFloat);
                 }
 
-                throw new Exception("Invalid operation: GreaterThan between " + leftValue.getType() + " and " + rightValue.getType());
+                throw new OperationNotDefinedForException.GreaterThan(leftValue.getType(), rightValue.getType());
             }
             case GreaterThanOrEqual: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
@@ -206,7 +211,7 @@ public class BinaryExpressionNode extends AstNode {
                     return new Value(Type.Boolean, leftFloat >= rightFloat);
                 }
 
-                throw new Exception("Invalid operation: GreaterThanOrEqual between " + leftValue.getType() + " and " + rightValue.getType());
+                throw new OperationNotDefinedForException.GreaterThanOrEqual(leftValue.getType(), rightValue.getType());
             }
             case LessThan: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
@@ -223,7 +228,7 @@ public class BinaryExpressionNode extends AstNode {
                     return new Value(Type.Boolean, leftFloat < rightFloat);
                 }
 
-                throw new Exception("Invalid operation: LessThan between " + leftValue.getType() + " and " + rightValue.getType());
+                throw new OperationNotDefinedForException.LessThan(leftValue.getType(), rightValue.getType());
             }
             case LessThanOrEqual: {
                 if (leftValue.is(Type.Integer) && rightValue.is(Type.Integer)) {
@@ -240,7 +245,7 @@ public class BinaryExpressionNode extends AstNode {
                     return new Value(Type.Boolean, leftFloat <= rightFloat);
                 }
 
-                throw new Exception("Invalid operation: LessThanOrEqual between " + leftValue.getType() + " and " + rightValue.getType());
+                throw new OperationNotDefinedForException.LessThanOrEqual(leftValue.getType(), rightValue.getType());
             }
             case And: {
                 if (leftValue.is(Type.Boolean) && rightValue.is(Type.Boolean)) {
@@ -250,7 +255,7 @@ public class BinaryExpressionNode extends AstNode {
                     return new Value(Type.Boolean, leftBool && rightBool);
                 }
 
-                throw new Exception("Invalid operation: And between " + leftValue.getType() + " and " + rightValue.getType());
+                throw new OperationNotDefinedForException.And(leftValue.getType(), rightValue.getType());
             }
             case Or: {
                 if (leftValue.is(Type.Boolean) && rightValue.is(Type.Boolean)) {
@@ -260,9 +265,9 @@ public class BinaryExpressionNode extends AstNode {
                     return new Value(Type.Boolean, leftBool || rightBool);
                 }
 
-                throw new Exception("Invalid operation: Or between " + leftValue.getType() + " and " + rightValue.getType());
+                throw new OperationNotDefinedForException.Or(leftValue.getType(), rightValue.getType());
             }
-            default: throw new Exception("Not implemented yet");
+            default: throw new UnknownBinaryOperator(operator);
         }
     }
 }

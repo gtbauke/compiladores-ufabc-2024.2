@@ -13,7 +13,7 @@ public class JavaGenerator implements IGenerator {
     }
 
     @Override
-    public void writeToFile(Program program, String path) {
+    public void write(Program program, String path) {
         var javaCode = generate(program);
 
         try {

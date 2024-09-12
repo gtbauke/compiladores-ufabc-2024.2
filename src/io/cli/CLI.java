@@ -1,12 +1,12 @@
 package io.cli;
 
-import io.compiler.core.ast.IdentifierNode;
+import io.compiler.core.ast.expressions.IdentifierNode;
 import io.compiler.core.ast.statements.ExpressionStatementNode;
 import io.compiler.core.generated.IsiLangLexer;
 import io.compiler.core.generated.IsiLangParser;
 import io.compiler.targets.c.CGenerator;
 import io.compiler.targets.java.JavaGenerator;
-import io.compiler.types.Binding;
+import io.compiler.core.symbols.Symbol;
 import io.interpreter.Interpreter;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -43,7 +43,7 @@ public class CLI {
                 var scanner = new Scanner(System.in);
                 var interpreter = new Interpreter(null);
 
-                var symbols = new HashMap<String, Binding>();
+                var symbols = new HashMap<String, Symbol>();
 
                 while (true) {
                     var line = scanner.nextLine();
@@ -92,7 +92,7 @@ public class CLI {
                         var code = javaGenerator.generate(program);
                         System.out.println(code);
                     } else {
-                        javaGenerator.writeToFile(program, output);
+                        javaGenerator.write(program, output);
                     }
 
                     break;
@@ -104,7 +104,7 @@ public class CLI {
                         var code = cGenerator.generate(program);
                         System.out.println(code);
                     } else {
-                        cGenerator.writeToFile(program, output);
+                        cGenerator.write(program, output);
                     }
 
                     break;

@@ -1,12 +1,15 @@
-package io.compiler.types;
+package io.compiler.core.symbols;
 
-public class Binding {
+import io.compiler.core.symbols.types.Type;
+
+public class Symbol {
     private final String identifier;
     private final Type type;
+
     private boolean isInitialized;
     private boolean isUsed;
 
-    public Binding(String identifier, Type type, boolean isInitialized) {
+    public Symbol(String identifier, Type type, boolean isInitialized) {
         this.identifier = identifier;
         this.type = type;
         this.isInitialized = isInitialized;
