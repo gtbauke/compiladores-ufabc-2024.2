@@ -1,4 +1,4 @@
-package io.compiler.core.warnings;
+package io.compiler.core.messages.warnings;
 
 public abstract class Warning {
     protected final String message;

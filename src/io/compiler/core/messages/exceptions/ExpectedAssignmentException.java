@@ -1,4 +1,4 @@
-package io.compiler.core.exceptions;
+package io.compiler.core.messages.exceptions;
 
 public class ExpectedAssignmentException extends SemanticException {
     public ExpectedAssignmentException(String message) {

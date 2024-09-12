@@ -1,8 +1,8 @@
 package io.interpreter;
 
 import io.compiler.core.ast.AstNode;
-import io.compiler.core.exceptions.AlreadyDeclaredVariableException;
-import io.compiler.core.exceptions.UndeclaredVariableException;
+import io.compiler.core.messages.exceptions.AlreadyDeclaredVariableException;
+import io.compiler.core.messages.exceptions.UndeclaredVariableException;
 import io.compiler.core.program.Program;
 import io.compiler.core.symbols.types.Type;
 
