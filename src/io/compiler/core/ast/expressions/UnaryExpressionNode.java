@@ -39,18 +39,18 @@ public class UnaryExpressionNode extends ExpressionAstNode {
     }
 
     @Override
-    public String generateCTarget() {
+    public String generateCTarget(int indent) {
         return switch (operator) {
-            case NOT -> "!(" + operand.generateCTarget() + ")";
-            case NEGATE -> "-" + operand.generateCTarget();
+            case NOT -> "!(" + operand.generateCTarget(0) + ")";
+            case NEGATE -> "-" + operand.generateCTarget(0);
         };
     }
 
     @Override
-    public String generateJavaTarget() {
+    public String generateJavaTarget(int indent) {
         return switch (operator) {
-            case NOT -> "!(" + operand.generateJavaTarget() + ")";
-            case NEGATE -> "-" + operand.generateJavaTarget();
+            case NOT -> "!(" + operand.generateJavaTarget(0) + ")";
+            case NEGATE -> "-" + operand.generateJavaTarget(0);
         };
     }
 

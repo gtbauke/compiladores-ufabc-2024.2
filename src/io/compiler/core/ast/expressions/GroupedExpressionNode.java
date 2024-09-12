@@ -17,13 +17,13 @@ public class GroupedExpressionNode extends ExpressionAstNode {
     }
 
     @Override
-    public String generateCTarget() {
-        return "(" + expression.generateCTarget() + ")";
+    public String generateCTarget(int indent) {
+        return "(" + expression.generateCTarget(0) + ")";
     }
 
     @Override
-    public String generateJavaTarget() {
-        return "(" + expression.generateJavaTarget() + ")";
+    public String generateJavaTarget(int indent) {
+        return "(" + expression.generateJavaTarget(0) + ")";
     }
 
     @Override

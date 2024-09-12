@@ -6,11 +6,11 @@ import io.interpreter.Interpreter;
 import io.interpreter.Value;
 import io.interpreter.exceptions.IsiLangRuntimeException;
 
-public class BindingNode extends AstNode {
+public class DeclarationNode extends AstNode {
     private final String identifier;
     private final AstNode initializer;
 
-    public BindingNode(String identifier, Type type, AstNode initializer) {
+    public DeclarationNode(String identifier, Type type, AstNode initializer) {
         super(type);
         this.identifier = identifier;
         this.initializer = initializer;
@@ -29,21 +29,21 @@ public class BindingNode extends AstNode {
     }
 
     @Override
-    public String generateCTarget() {
+    public String generateCTarget(int indent) {
         var builder = new StringBuilder();
 
         if (type == Type.String) {
-            builder.append("char ").append(identifier).append("[256];\n");
+            builder.append("    ".repeat(indent)).append("char ").append(identifier).append("[256];\n");
 
             if (initializer != null) {
-                builder.append("strcpy(").append(identifier).append(", ").append(initializer.generateCTarget()).append(");\n");
+                builder.append("    ".repeat(indent)).append("strcpy(").append(identifier).append(", ").append(initializer.generateCTarget(0)).append(");\n");
             }
         } else {
-            var typeString = type.generateCTarget();
+            var typeString = type.generateCTarget(0);
 
-            builder.append(typeString).append(" ").append(identifier);
+            builder.append("    ".repeat(indent)).append(typeString).append(" ").append(identifier);
             if (initializer != null) {
-                builder.append(" = ").append(initializer.generateCTarget());
+                builder.append(" = ").append(initializer.generateCTarget(0));
             }
 
             builder.append(";\n");
@@ -53,13 +53,13 @@ public class BindingNode extends AstNode {
     }
 
     @Override
-    public String generateJavaTarget() {
+    public String generateJavaTarget(int indent) {
         var builder = new StringBuilder();
-        var typeString = type.generateJavaTarget();
+        var typeString = type.generateJavaTarget(0);
 
-        builder.append(typeString).append(" ").append(identifier);
+        builder.append("    ".repeat(indent)).append(typeString).append(" ").append(identifier);
         if (initializer != null) {
-            builder.append(" = ").append(initializer.generateJavaTarget());
+            builder.append(" = ").append(initializer.generateJavaTarget(0));
         }
 
         builder.append(";\n");

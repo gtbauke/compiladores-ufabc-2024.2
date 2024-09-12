@@ -33,7 +33,7 @@ public enum Type implements JavaTargetable, CTargetable {
     }
 
     @Override
-    public java.lang.String generateCTarget() {
+    public java.lang.String generateCTarget(int indent) {
         return switch (this) {
             case Integer, Boolean -> "int";
             case Float -> "float";
@@ -43,7 +43,7 @@ public enum Type implements JavaTargetable, CTargetable {
     }
 
     @Override
-    public java.lang.String generateJavaTarget() {
+    public java.lang.String generateJavaTarget(int indent) {
         return switch (this) {
             case Integer -> "int";
             case Float -> "float";

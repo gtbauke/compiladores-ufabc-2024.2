@@ -13,12 +13,12 @@ public class FloatLiteralNode extends LiteralAstNode {
     }
 
     @Override
-    public String generateCTarget() {
+    public String generateCTarget(int indent) {
         return String.valueOf(value);
     }
 
     @Override
-    public String generateJavaTarget() {
+    public String generateJavaTarget(int indent) {
         return String.valueOf(value);
     }
 

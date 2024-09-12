@@ -25,7 +25,7 @@ public class ReadStatementNode extends StatementNode {
     }
 
     @Override
-    public String generateCTarget() {
+    public String generateCTarget(int indent) {
         var builder = new StringBuilder();
 
         switch (targetType) {
@@ -38,7 +38,7 @@ public class ReadStatementNode extends StatementNode {
     }
 
     @Override
-    public String generateJavaTarget() {
+    public String generateJavaTarget(int indent) {
         var builder = new StringBuilder();
         builder.append(target).append(" = ");
 

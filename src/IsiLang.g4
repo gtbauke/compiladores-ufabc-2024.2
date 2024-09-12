@@ -24,7 +24,7 @@ grammar IsiLang;
     private AstNode root = null;
 
     private ArrayList<StatementNode> statements = new ArrayList<StatementNode>();
-    private ArrayList<BindingNode> declarations = new ArrayList<BindingNode>();
+    private ArrayList<DeclarationNode> declarations = new ArrayList<DeclarationNode>();
 
     public AstNode getRoot(){
         if (root == null) {
@@ -38,7 +38,7 @@ grammar IsiLang;
         return statements;
     }
 
-    public ArrayList<BindingNode> getDeclarations() {
+    public ArrayList<DeclarationNode> getDeclarations() {
         return declarations;
     }
 
@@ -46,7 +46,7 @@ grammar IsiLang;
         statements.add(statement);
     }
 
-    private void addDeclaration(BindingNode declaration) {
+    private void addDeclaration(DeclarationNode declaration) {
         declarations.add(declaration);
     }
 
@@ -130,13 +130,27 @@ while : 'enquanto' OPEN_PAREN expression {
 };
 
 for : 'para' OPEN_PAREN attributionl {
-    var initialization = statements.get(statements.size() - 1);
+    var initializationStatement = statements.get(statements.size() - 1);
     statements.remove(statements.size() - 1);
+
+    if (!(initializationStatement instanceof AssignmentStatementNode)) {
+        throw new ExpectedAssignmentException("in for loop initialization");
+    }
+
+    var statement = (AssignmentStatementNode)initializationStatement;
+    var initialization = new ForStatementNode.Initializer(statement.getIdentifier(), statement.getExpression());
 } END_OF_LINE expression {
     var condition = stack.pop();
 } END_OF_LINE attributionl {
-    var increment = statements.get(statements.size() - 1);
+    var incrementStatement = statements.get(statements.size() - 1);
     statements.remove(statements.size() - 1);
+
+    if (!(incrementStatement instanceof AssignmentStatementNode)) {
+        throw new ExpectedAssignmentException("in for loop increment");
+    }
+
+    var assignmentIncrementStatement = (AssignmentStatementNode)incrementStatement;
+    var increment = new ForStatementNode.Increment(assignmentIncrementStatement.getIdentifier(), assignmentIncrementStatement.getExpression());
 
     var body = new ArrayList<StatementNode>();
 } CLOSE_PAREN OPEN_CURLY (statement {
@@ -233,7 +247,7 @@ assignment : ('int' | 'float' | 'string' | 'boolean') {
         throw new DeclarationTypeMismatchException(identifier.getName(), type, initializer.getType());
     }
 
-    var binding = new BindingNode(identifier.getName(), type, initializer);
+    var binding = new DeclarationNode(identifier.getName(), type, initializer);
     addDeclaration(binding);
 
     symbols.put(identifier.getName(), binding.asBinding());

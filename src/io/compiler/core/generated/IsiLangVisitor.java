@@ -194,6 +194,12 @@ public interface IsiLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUnary(IsiLangParser.UnaryContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#unary_op_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnary_op_expression(IsiLangParser.Unary_op_expressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link IsiLangParser#grouped_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -205,6 +211,18 @@ public interface IsiLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBoolean_literal(IsiLangParser.Boolean_literalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#string_literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString_literal(IsiLangParser.String_literalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link IsiLangParser#numeric_literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumeric_literal(IsiLangParser.Numeric_literalContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link IsiLangParser#identifier}.
 	 * @param ctx the parse tree

@@ -33,15 +33,15 @@ public class IfStatementNode extends StatementNode {
     }
 
     @Override
-    public String generateCTarget() {
+    public String generateCTarget(int indent) {
         var builder = new StringBuilder();
 
         builder.append("if (");
-        builder.append(condition.generateCTarget());
+        builder.append(condition.generateCTarget(0));
         builder.append(") {\n");
 
         for (var node : thenBranch) {
-            builder.append(node.generateCTarget());
+            builder.append(node.generateCTarget(0));
         }
 
         builder.append("} ");
@@ -50,7 +50,7 @@ public class IfStatementNode extends StatementNode {
             builder.append("else {\n");
 
             for (var node : elseBranch) {
-                builder.append(node.generateCTarget());
+                builder.append(node.generateCTarget(0));
             }
 
             builder.append("}\n");
@@ -60,15 +60,15 @@ public class IfStatementNode extends StatementNode {
     }
 
     @Override
-    public String generateJavaTarget() {
+    public String generateJavaTarget(int indent) {
         var builder = new StringBuilder();
 
         builder.append("if (");
-        builder.append(condition.generateJavaTarget());
+        builder.append(condition.generateJavaTarget(0));
         builder.append(") {\n");
 
         for (var node : thenBranch) {
-            builder.append(node.generateJavaTarget());
+            builder.append(node.generateJavaTarget(0));
         }
 
         builder.append("} ");
@@ -77,7 +77,7 @@ public class IfStatementNode extends StatementNode {
             builder.append("else {\n");
 
             for (var node : elseBranch) {
-                builder.append(node.generateJavaTarget());
+                builder.append(node.generateJavaTarget(0));
             }
 
             builder.append("}\n");

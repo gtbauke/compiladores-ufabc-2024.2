@@ -18,12 +18,12 @@ public class IdentifierNode extends ExpressionAstNode {
     }
 
     @Override
-    public String generateCTarget() {
+    public String generateCTarget(int indent) {
         return name;
     }
 
     @Override
-    public String generateJavaTarget() {
+    public String generateJavaTarget(int indent) {
         return name;
     }
 
