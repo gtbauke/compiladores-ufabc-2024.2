@@ -58,6 +58,6 @@ public class ReadStatementNode extends StatementNode {
         var value = interpreter.read(targetType);
         interpreter.updateValue(target, value);
 
-        return new Value(Type.Void, null);
+        return Value.VOID;
     }
 }

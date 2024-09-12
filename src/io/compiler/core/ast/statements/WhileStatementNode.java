@@ -68,6 +68,6 @@ public class WhileStatementNode extends StatementNode {
             }
         }
 
-        return new Value(Type.Void, null);
+        return Value.VOID;
     }
 }

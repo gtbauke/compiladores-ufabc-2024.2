@@ -35,6 +35,6 @@ public class AssignmentStatementNode extends StatementNode {
         var value = expression.interpret(interpreter);
         interpreter.updateValue(identifier, value);
 
-        return new Value(Type.Void, null);
+        return Value.VOID;
     }
 }

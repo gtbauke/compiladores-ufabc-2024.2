@@ -64,6 +64,6 @@ public class DoWhileStatementNode extends StatementNode {
             }
         } while (condition.interpret(interpreter).asBoolean());
 
-        return new Value(Type.Void, null);
+        return Value.VOID;
     }
 }
