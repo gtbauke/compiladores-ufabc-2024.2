@@ -2,6 +2,7 @@ package io.compiler.core.ast.statements;
 
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
+import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
 import io.interpreter.exceptions.IsiLangRuntimeException;
@@ -64,6 +65,16 @@ public class WhileStatementNode extends StatementNode {
         while (condition.interpret(interpreter).asBoolean()) {
             for (StatementNode node : body) {
                 node.interpret(interpreter);
+
+                if (interpreter.shouldBreak()) {
+                    interpreter.setShouldBreak(false);
+                    return Value.VOID;
+                }
+
+                if (interpreter.shouldContinue()) {
+                    interpreter.setShouldContinue(false);
+                    break;
+                }
             }
         }
 

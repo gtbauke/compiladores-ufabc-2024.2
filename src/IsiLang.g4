@@ -26,6 +26,10 @@ grammar IsiLang;
     private ArrayList<StatementNode> statements = new ArrayList<StatementNode>();
     private ArrayList<DeclarationNode> declarations = new ArrayList<DeclarationNode>();
 
+    private boolean isInitializingVariable = false;
+    private boolean hasElseBranch = false;
+    private boolean isInsideAnyLoop = false;
+
     public AstNode getRoot(){
         if (root == null) {
             root = stack.pop();
@@ -49,9 +53,6 @@ grammar IsiLang;
     private void addDeclaration(DeclarationNode declaration) {
         declarations.add(declaration);
     }
-
-    private boolean isInitializingVariable = false;
-    private boolean hasElseBranch = false;
 
     public Program getProgram() {
         return program;
@@ -84,7 +85,7 @@ program : 'programa' declaration 'inicio' block 'fimprog' DOT {
 declaration : variable_declaration*;
 block : statement+;
 
-statement : print | read | if | attribution | for | while | do_while;
+statement : print | read | if | attribution | for | while | do_while | continue | break;
 
 repl_line : {
     statements.clear();
@@ -102,8 +103,27 @@ repl_line : {
     addStatement(expressionStatement);
 };
 
+continue : 'continue' END_OF_LINE {
+    if (!isInsideAnyLoop) {
+        throw new ContinueOutsideLoopException();
+    }
+
+    var continueStatement = new ContinueStatementNode();
+    addStatement(continueStatement);
+};
+
+break : 'pare' END_OF_LINE {
+    if (!isInsideAnyLoop) {
+        throw new BreakOutsideLoopException();
+    }
+
+    var breakStatement = new BreakStatementNode();
+    addStatement(breakStatement);
+};
+
 do_while : 'faca' {
     var body = new ArrayList<StatementNode>();
+    isInsideAnyLoop = true;
 } OPEN_CURLY (statement {
     var lastStatement = statements.get(statements.size() - 1);
     statements.remove(statements.size() - 1);
@@ -114,11 +134,14 @@ do_while : 'faca' {
 } CLOSE_PAREN END_OF_LINE {
     var doWhileStatement = new DoWhileStatementNode(body, condition);
     addStatement(doWhileStatement);
+
+    isInsideAnyLoop = false;
 };
 
 while : 'enquanto' OPEN_PAREN expression {
     var condition = stack.pop();
     var body = new ArrayList<StatementNode>();
+    isInsideAnyLoop = true;
 } CLOSE_PAREN OPEN_CURLY (statement {
     var lastStatement = statements.get(statements.size() - 1);
     statements.remove(statements.size() - 1);
@@ -127,9 +150,13 @@ while : 'enquanto' OPEN_PAREN expression {
 })+ CLOSE_CURLY {
     var whileStatement = new WhileStatementNode(condition, body);
     addStatement(whileStatement);
+
+    isInsideAnyLoop = false;
 };
 
 for : 'para' OPEN_PAREN attributionl {
+    isInsideAnyLoop = true;
+
     var initializationStatement = statements.get(statements.size() - 1);
     statements.remove(statements.size() - 1);
 
@@ -161,6 +188,8 @@ for : 'para' OPEN_PAREN attributionl {
 })+ CLOSE_CURLY {
     var forStatement = new ForStatementNode(initialization, condition, increment, body);
     addStatement(forStatement);
+
+    isInsideAnyLoop = false;
 };
 
 attribution : attributionl END_OF_LINE;
@@ -316,7 +345,7 @@ comparisonl : ((OP_REL) {
 
 term : factor terml;
 
-terml : ((OP_TERM) {
+terml : (('+' | '-') {
     var operator = BinaryOperator.fromString(_input.LT(-1).getText());
     var binaryOperation = new BinaryExpressionNode(operator);
 
@@ -375,7 +404,9 @@ boolean_literal : (TRUE | FALSE) {
 };
 
 string_literal : STRING {
-    var stringLiteral = new StringLiteralNode(_input.LT(-1).getText());
+    var text = _input.LT(-1).getText().substring(1, _input.LT(-1).getText().length() - 1);
+
+    var stringLiteral = new StringLiteralNode(text);
     stack.push(stringLiteral);
 };
 
@@ -423,7 +454,7 @@ OP_AND : '&&';
 OP_COMP : '==' | '!=';
 OP_REL : '<' | '>' | '<=' | '>=';
 OP_TERM : '+' | '-';
-OP_FACTOR : '*' | '/';
+OP_FACTOR : '*' | '/' | '%';
 
 DOT : '.';
 
