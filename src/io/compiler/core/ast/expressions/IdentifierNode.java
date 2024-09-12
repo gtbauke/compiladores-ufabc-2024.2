@@ -1,10 +1,11 @@
-package io.compiler.core.ast;
+package io.compiler.core.ast.expressions;
 
-import io.compiler.types.Type;
+import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
+import io.interpreter.exceptions.IsiLangRuntimeException;
 
-public class IdentifierNode extends AstNode {
+public class IdentifierNode extends ExpressionAstNode {
     private final String name;
 
     public IdentifierNode(String name) {
@@ -27,7 +28,7 @@ public class IdentifierNode extends AstNode {
     }
 
     @Override
-    public Value interpret(Interpreter interpreter) throws Exception {
+    public Value interpret(Interpreter interpreter) throws IsiLangRuntimeException {
         return interpreter.getValue(name);
     }
 }

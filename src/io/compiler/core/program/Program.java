@@ -2,22 +2,22 @@ package io.compiler.core.program;
 
 import io.compiler.core.ast.BindingNode;
 import io.compiler.core.ast.StatementNode;
-import io.compiler.core.targets.ICTarget;
-import io.compiler.core.targets.IJavaTarget;
-import io.compiler.types.Binding;
+import io.compiler.targets.c.CTargetable;
+import io.compiler.targets.java.JavaTargetable;
+import io.compiler.core.symbols.Symbol;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class Program implements IJavaTarget, ICTarget {
+public class Program implements JavaTargetable, CTargetable {
     public static final String SCANNER_NAME = "__scanner";
 
     private final List<BindingNode> declarations;
     private final List<StatementNode> statements;
 
-    private final HashMap<String, Binding> symbols;
+    private final HashMap<String, Symbol> symbols;
 
-    public Program(List<BindingNode> declarations, List<StatementNode> statements, HashMap<String, Binding> symbols) {
+    public Program(List<BindingNode> declarations, List<StatementNode> statements, HashMap<String, Symbol> symbols) {
         this.declarations = declarations;
         this.statements = statements;
 
@@ -32,7 +32,7 @@ public class Program implements IJavaTarget, ICTarget {
         return statements;
     }
 
-    public HashMap<String, Binding> getSymbols() {
+    public HashMap<String, Symbol> getSymbols() {
         return symbols;
     }
 

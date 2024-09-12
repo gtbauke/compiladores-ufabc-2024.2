@@ -2,10 +2,11 @@ package io.compiler.core.ast.statements;
 
 import io.compiler.core.ast.AstNode;
 import io.compiler.core.ast.StatementNode;
-import io.compiler.targets.c.FormatSpecifier;
-import io.compiler.types.Type;
+import io.compiler.targets.c.StringFormatSpecifierUtil;
+import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
+import io.interpreter.exceptions.IsiLangRuntimeException;
 
 public class PrintStatementNode extends StatementNode {
     private final AstNode value;
@@ -20,7 +21,7 @@ public class PrintStatementNode extends StatementNode {
 
     @Override
     public String generateCTarget() {
-        var formatSpecifier = FormatSpecifier.getSpecifier(value.getType());
+        var formatSpecifier = StringFormatSpecifierUtil.getTypeSpecifierFor(value.getType());
 
         return "printf(\"" +
                 formatSpecifier +
@@ -35,7 +36,7 @@ public class PrintStatementNode extends StatementNode {
     }
 
     @Override
-    public Value interpret(Interpreter interpreter) throws Exception {
+    public Value interpret(Interpreter interpreter) throws IsiLangRuntimeException {
         var value = this.value.interpret(interpreter);
         System.out.println(value);
 

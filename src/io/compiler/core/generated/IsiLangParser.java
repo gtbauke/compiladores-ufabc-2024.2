@@ -2,13 +2,15 @@
 package io.compiler.core.generated;
 
     import io.compiler.core.ast.*;
-    import io.compiler.core.ast.literals.*;
+    import io.compiler.core.ast.expressions.*;
     import io.compiler.core.ast.statements.*;
-    import io.compiler.core.operators.*;
+    import io.compiler.core.ast.expressions.literals.*;
+    import io.compiler.core.ast.operators.*;
     import io.compiler.core.exceptions.*;
     import io.compiler.core.warnings.*;
     import io.compiler.core.program.*;
-    import io.compiler.types.*;
+    import io.compiler.core.symbols.*;
+    import io.compiler.core.symbols.types.*;
     import java.util.Stack;
     import java.util.ArrayList;
     import java.util.HashMap;
@@ -124,9 +126,9 @@ public class IsiLangParser extends Parser {
 
 
 	    private Program program;
-	    private HashMap<String, Binding> symbols = new HashMap<String, Binding>();
+	    private HashMap<String, Symbol> symbols = new HashMap<String, Symbol>();
 
-	    private Stack<AstNode> stack = new Stack<AstNode>();
+	    private Stack<ExpressionAstNode> stack = new Stack<ExpressionAstNode>();
 	    private AstNode root = null;
 
 	    public AstNode getRoot(){
@@ -163,11 +165,11 @@ public class IsiLangParser extends Parser {
 	        return program;
 	    }
 
-	    public void setSymbols(HashMap<String, Binding> symbols) {
+	    public void setSymbols(HashMap<String, Symbol> symbols) {
 	        this.symbols = symbols;
 	    }
 
-	    public HashMap<String, Binding> getSymbols() {
+	    public HashMap<String, Symbol> getSymbols() {
 	        return symbols;
 	    }
 

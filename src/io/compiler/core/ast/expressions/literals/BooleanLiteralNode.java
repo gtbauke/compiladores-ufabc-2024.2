@@ -1,8 +1,9 @@
-package io.compiler.core.ast.literals;
+package io.compiler.core.ast.expressions.literals;
 
-import io.compiler.types.Type;
+import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
+import io.interpreter.exceptions.IsiLangRuntimeException;
 
 public class BooleanLiteralNode extends LiteralAstNode {
     private final boolean value;
@@ -31,7 +32,7 @@ public class BooleanLiteralNode extends LiteralAstNode {
     }
 
     @Override
-    public Value interpret(Interpreter interpreter) throws Exception {
+    public Value interpret(Interpreter interpreter) throws IsiLangRuntimeException {
         return new Value(Type.Boolean, value);
     }
 }

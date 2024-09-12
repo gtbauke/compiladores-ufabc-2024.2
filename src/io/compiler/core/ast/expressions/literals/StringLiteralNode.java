@@ -1,6 +1,6 @@
-package io.compiler.core.ast.literals;
+package io.compiler.core.ast.expressions.literals;
 
-import io.compiler.types.Type;
+import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
 

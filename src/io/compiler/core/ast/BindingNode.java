@@ -1,9 +1,10 @@
 package io.compiler.core.ast;
 
-import io.compiler.types.Binding;
-import io.compiler.types.Type;
+import io.compiler.core.symbols.Symbol;
+import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
+import io.interpreter.exceptions.IsiLangRuntimeException;
 
 public class BindingNode extends AstNode {
     private final String identifier;
@@ -23,8 +24,8 @@ public class BindingNode extends AstNode {
         return initializer;
     }
 
-    public Binding asBinding() {
-        return new Binding(identifier, type, initializer != null);
+    public Symbol asBinding() {
+        return new Symbol(identifier, type, initializer != null);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class BindingNode extends AstNode {
     }
 
     @Override
-    public Value interpret(Interpreter interpreter) throws Exception {
+    public Value interpret(Interpreter interpreter) throws IsiLangRuntimeException {
         var value = initializer == null
             ? new Value(type, null)
             : initializer.interpret(interpreter);
