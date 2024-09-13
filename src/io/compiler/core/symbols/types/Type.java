@@ -36,7 +36,7 @@ public enum Type implements JavaTargetable, CTargetable {
     public java.lang.String generateCTarget(int indent) {
         return switch (this) {
             case Integer, Boolean -> "int";
-            case Float -> "float";
+            case Float -> "double";
             case String -> "char*";
             case Void -> "void";
             default -> throw new IllegalArgumentException("Invalid value: " + this);
@@ -47,7 +47,7 @@ public enum Type implements JavaTargetable, CTargetable {
     public java.lang.String generateJavaTarget(int indent) {
         return switch (this) {
             case Integer -> "int";
-            case Float -> "float";
+            case Float -> "double";
             case String -> "String";
             case Void -> "void";
             case Boolean -> "boolean";
