@@ -3,6 +3,7 @@ package io.compiler.core.ast.statements;
 import io.compiler.core.ast.StatementNode;
 import io.compiler.core.program.Program;
 import io.compiler.core.symbols.types.Type;
+import io.compiler.targets.c.StringFormatSpecifierUtil;
 import io.interpreter.Interpreter;
 import io.interpreter.Value;
 import io.interpreter.exceptions.IsiLangRuntimeException;
@@ -26,15 +27,10 @@ public class ReadStatementNode extends StatementNode {
 
     @Override
     public String generateCTarget(int indent) {
-        var builder = new StringBuilder();
-
-        switch (targetType) {
-            case Integer, Boolean -> builder.append("scanf(\"%d\", &").append(target).append(");");
-            case Float -> builder.append("scanf(\"%f\", &").append(target).append(");");
-            case String -> builder.append("scanf(\"%s\", ").append(target).append(");");
-        }
-
-        return builder.toString();
+        return "scanf(\"" +
+                StringFormatSpecifierUtil.getTypeSpecifierFor(targetType) +
+                "\", &" + target + ");" +
+                "\n";
     }
 
     @Override

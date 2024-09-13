@@ -4,7 +4,7 @@ import io.compiler.core.symbols.types.Type;
 
 public class StringFormatSpecifierUtil {
     public static final String INTEGER = "%d";
-    public static final String FLOAT = "%f";
+    public static final String FLOAT = "%lf";
     public static final String STRING = "%s";
 
     private StringFormatSpecifierUtil() {}
