@@ -1135,7 +1135,7 @@ public class IsiLangParser extends Parser {
 
 			    var symbol = symbols.get(identifier.getName());
 			    var symbolType = symbol.getType();
-			    
+
 			setState(183);
 			match(T__8);
 			setState(184);
@@ -2365,7 +2365,7 @@ public class IsiLangParser extends Parser {
 					    var operator = BinaryOperator.fromString(_input.LT(-1).getText());
 					    var binaryOperation = new BinaryExpressionNode(operator);
 
-					    if (stack.peek().isLiteral() || stack.peek().isIdentifier()) {
+					    if (stack.peek().isLiteral() || stack.peek().isIdentifier() || stack.peek().isGroup()) {
 					        binaryOperation.setLeft(stack.pop());
 					    } else {
 					        var other = (BinaryExpressionNode)stack.pop();
