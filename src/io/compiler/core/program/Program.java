@@ -12,6 +12,7 @@ import java.util.List;
 public record Program(List<DeclarationNode> declarations, List<StatementNode> statements,
                       HashMap<String, Symbol> symbols) implements JavaTargetable, CTargetable {
     public static final String SCANNER_NAME = "__scanner";
+    public static final int DEFAULT_C_ARRAY_SIZE = 100;
 
     @Override
     public String generateCTarget(int indent) {

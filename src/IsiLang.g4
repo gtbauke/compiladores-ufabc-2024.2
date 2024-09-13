@@ -204,7 +204,7 @@ attributionl : IDENTIFIER {
 
     var symbol = symbols.get(identifier.getName());
     var symbolType = symbol.getType();
-    } '=' expression {
+} '=' expression {
     var expression = stack.pop();
 
     if (symbolType != expression.getType()) {
