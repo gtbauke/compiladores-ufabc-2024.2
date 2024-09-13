@@ -1,5 +1,6 @@
 package io.compiler.core.ast;
 
+import io.compiler.core.program.Program;
 import io.compiler.core.symbols.Symbol;
 import io.compiler.core.symbols.types.Type;
 import io.interpreter.Interpreter;
@@ -33,7 +34,7 @@ public class DeclarationNode extends AstNode {
         var builder = new StringBuilder();
 
         if (type == Type.String) {
-            builder.append("    ".repeat(indent)).append("char ").append(identifier).append("[256];\n");
+            builder.append("    ".repeat(indent)).append("char ").append(identifier).append("[").append(Program.DEFAULT_C_ARRAY_SIZE).append("];\n");
 
             if (initializer != null) {
                 builder.append("    ".repeat(indent)).append("strcpy(").append(identifier).append(", ").append(initializer.generateCTarget(0)).append(");\n");

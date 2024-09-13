@@ -1,9 +1,11 @@
 package io.cli;
 
+import io.compiler.core.ast.StatementNode;
 import io.compiler.core.ast.expressions.IdentifierNode;
 import io.compiler.core.ast.statements.ExpressionStatementNode;
 import io.compiler.core.generated.IsiLangLexer;
 import io.compiler.core.generated.IsiLangParser;
+import io.compiler.core.program.Program;
 import io.compiler.targets.c.CGenerator;
 import io.compiler.targets.java.JavaGenerator;
 import io.compiler.core.symbols.Symbol;
@@ -32,50 +34,81 @@ public class CLI {
         this.output = output;
     }
 
-    public void run() {
-        try {
-            IsiLangLexer lexer;
-            IsiLangParser parser;
+    private boolean checkReplExit(StatementNode lastStatement) {
+        if (lastStatement instanceof ExpressionStatementNode expressionStatementNode) {
+            if (expressionStatementNode.getExpression() instanceof IdentifierNode identifierNode) {
+                return identifierNode.getName().equals("__exit__");
+            }
 
-            if (target == Target.REPL) {
-                System.out.println("REPL mode enabled. Type __exit__ to exit.");
+            return false;
+        }
 
-                var scanner = new Scanner(System.in);
-                var interpreter = new Interpreter(null);
+        return false;
+    }
 
-                var symbols = new HashMap<String, Symbol>();
+    private void runReplMode() {
+        System.out.println("REPL mode enabled. Type __exit__ to exit.");
 
-                while (true) {
-                    try {
-                        var line = scanner.nextLine();
+        var scanner = new Scanner(System.in);
+        var interpreter = new Interpreter(null);
 
-                        lexer = new IsiLangLexer(CharStreams.fromString(line));
-                        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-                        parser = new IsiLangParser(tokenStream);
-                        parser.setSymbols(symbols);
+        var sessionSymbols = new HashMap<String, Symbol>();
 
-                        parser.repl_line();
-                        symbols = parser.getSymbols();
+        while (true) {
+            try {
+                var line = scanner.nextLine();
+                var lexer = new IsiLangLexer(CharStreams.fromString(line));
+                var parser = new IsiLangParser(new CommonTokenStream(lexer));
 
-                        var input = parser.getStatements().getFirst();
+                parser.setSymbols(sessionSymbols);
+                parser.repl_line();
+                sessionSymbols = parser.getSymbols();
 
-                        if (input instanceof ExpressionStatementNode expressionStatement) {
-                            if (expressionStatement.getExpression() instanceof IdentifierNode identifierNode) {
-                                if (identifierNode.getName().equals("__exit__")) {
-                                    break;
-                                }
-                            }
-                        }
-
-                        interpreter.cliRun(input);
-                    } catch (Exception exception) {
-                        System.err.println("Error: " + exception.getMessage());
-                        System.out.println("Stack trace:");
-                        exception.printStackTrace();
-                    }
+                var input = parser.getStatements().getFirst();
+                var shouldExit = checkReplExit(input);
+                if (shouldExit) {
+                    break;
                 }
 
-                scanner.close();
+                interpreter.cliRun(input);
+            } catch (Exception exception) {
+                System.err.println("Error: " + exception.getMessage());
+            }
+        }
+
+        scanner.close();
+    }
+
+    private void runJava(Program program) {
+        var javaGenerator = new JavaGenerator();
+
+        if (output == null) {
+            var code = javaGenerator.generate(program);
+            System.out.println(code);
+
+            return;
+        }
+
+        javaGenerator.write(program, output);
+    }
+
+    public void runC(Program program) {
+        var cGenerator = new CGenerator();
+
+        if (output == null) {
+            var code = cGenerator.generate(program);
+            System.out.println(code);
+
+            return;
+        }
+
+        cGenerator.write(program, output);
+    }
+
+    public void run() {
+        try {
+            if (target == Target.REPL) {
+                runReplMode();
                 return;
             }
 
@@ -83,47 +116,29 @@ public class CLI {
                 System.out.println("Input file not specified, defaulting to ./input.isi");
             }
 
-            lexer = new IsiLangLexer(CharStreams.fromFileName(input));
-            CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-            parser = new IsiLangParser(tokenStream);
+            var lexer = new IsiLangLexer(CharStreams.fromFileName(input));
+            var parser = new IsiLangParser(new CommonTokenStream(lexer));
 
             parser.program();
             var program = parser.getProgram();
 
             switch (target) {
                 case Java: {
-                    var javaGenerator = new JavaGenerator();
-
-                    if (output == null) {
-                        var code = javaGenerator.generate(program);
-                        System.out.println(code);
-                    } else {
-                        javaGenerator.write(program, output);
-                    }
-
+                    runJava(program);
                     break;
                 }
                 case C: {
-                    var cGenerator = new CGenerator();
-
-                    if (output == null) {
-                        var code = cGenerator.generate(program);
-                        System.out.println(code);
-                    } else {
-                        cGenerator.write(program, output);
-                    }
-
+                    runC(program);
                     break;
                 }
                 case Interpret: {
                     var interpreter = new Interpreter(program);
                     interpreter.run();
+                    break;
                 }
             }
         } catch (Exception exception) {
             System.err.println("Error: " + exception.getMessage());
-            System.out.println("Stack trace:");
-            exception.printStackTrace();
         }
     }
 }
