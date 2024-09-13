@@ -27,4 +27,8 @@ public abstract class AstNode implements JavaTargetable, CTargetable, Interpreta
     public boolean isIdentifier() {
         return false;
     }
+
+    public boolean isGroup() {
+        return false;
+    }
 }

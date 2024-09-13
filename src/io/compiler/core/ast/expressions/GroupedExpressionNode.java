@@ -17,6 +17,11 @@ public class GroupedExpressionNode extends ExpressionAstNode {
     }
 
     @Override
+    public boolean isGroup() {
+        return true;
+    }
+
+    @Override
     public String generateCTarget(int indent) {
         return "(" + expression.generateCTarget(0) + ")";
     }

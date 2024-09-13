@@ -14,12 +14,12 @@ public class StringLiteralNode extends LiteralAstNode {
 
     @Override
     public String generateCTarget(int indent) {
-        return value;
+        return "\"" + value + "\"";
     }
 
     @Override
     public String generateJavaTarget(int indent) {
-        return value;
+        return "\"" + value + "\"";
     }
 
     @Override
