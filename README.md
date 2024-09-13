@@ -1,11 +1,29 @@
 # Projeto Compiladores
 
 Integrantes:
-- Gustavo Teodoro Bauke RA: 11202130481
+- Gustavo Teodoro Bauke     RA: 11202130481
 - Matheus Machado de Araujo RA: 11202130496
 
-Link para o vídeo: [ADICIONAR]() 
+Link para o vídeo: [Compiladores 2024.2 UFABC](https://youtu.be/ArXWvvfrGA0)
 
-## Como rodar o projeto?
+## Executando o projeto
 
-TODO: Adicionar
+Projeto foi criado utilizando a versão 22 do Java.
+
+Baixe a versão pré-compilada do projeto no [GitHub](https://github.com/gtbauke/compiladores-ufabc-2024.2/releases/tag/v1.0.0).
+
+Na pasta onde o arquivo baixado está localizado, execute o seguinte comando:
+
+```bash
+java -jar compiladores-2024-2-ufabc.jar --target <TARGET> --input <INPUT> --output <OUTPUT>
+```
+
+onde 'TARGET' é um dos seguintes valores:
+- 'java': para gerar código Java
+- 'c': para gerar código C
+- 'interpret': para interpretar o código
+- 'repl': para abrir o REPL (modo iterativo)
+
+os valores de 'INPUT' e 'OUTPUT' são os caminhos para os arquivos de entrada e saída, respectivamente. Sendo ambos opcionais.
+
+Caso 'INPUT' não seja fornecido, o programa irá ler o arquivo 'input.isi' da pasta em que foi executado. Caso 'OUTPUT' não seja fornecido, o compilador imprimirá na tela a versão do código para as linguagens alvo, caso seja especificado, o compilador criará um arquivo com o resultado da compilação.

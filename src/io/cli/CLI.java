@@ -25,7 +25,7 @@ public class CLI {
     }
 
     private final Target target;
-    private final String input;
+    private String input;
     private final String output;
 
     public CLI(Target target, String input, String output) {
@@ -114,6 +114,7 @@ public class CLI {
 
             if (input == null) {
                 System.out.println("Input file not specified, defaulting to ./input.isi");
+                input = "input.isi";
             }
 
             var lexer = new IsiLangLexer(CharStreams.fromFileName(input));

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="compildores-2024-2-ufabc:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/compildores_2024_2_ufabc_jar</output-path>
+    <root id="archive" name="compildores-2024-2-ufabc.jar">
+      <element id="module-output" name="compildores-2024-2-ufabc" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Tools/Java/libs/antlr-4.13.2-complete.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
